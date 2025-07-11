@@ -1,11 +1,12 @@
 package agenda.modelo;
 
+import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class Contacto implements Comparable<Contacto>, Cloneable {
+public class Contacto implements Comparable<Contacto>, Cloneable,Serializable {
 	
 	//Atributos
 	private int idContacto;
