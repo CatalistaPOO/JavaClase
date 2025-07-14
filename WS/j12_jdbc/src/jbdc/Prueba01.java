@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
-
+//DataSource lee en origen de lacarpeta que contiene los drivers JDBC (DriversJar), carpeta exterior a los projectos Java(WS)
 import org.apache.commons.dbcp.BasicDataSource;
 
 public class Prueba01 {
@@ -19,7 +19,7 @@ public class Prueba01 {
 		bds.setUsername("root");//Usuario que usa la Base de datos
 		bds.setPassword("root");//Password del usuario
 		
-		//DataSource implementa BasicDataSource o al reves..., aclararlo
+		//BasicDataSource implementa a DataSource(DataSource no tiene los metodos de BasicDataSource)
 		DataSource ds = bds;
 		
 		try (Connection cx = ds.getConnection()){
