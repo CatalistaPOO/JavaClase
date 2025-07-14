@@ -1,7 +1,10 @@
 package agenda.persistencia;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.imageio.stream.FileImageOutputStream;
+import javax.management.RuntimeErrorException;
 
 import agenda.modelo.Contacto;
 import agenda.util.Contactos;
@@ -24,8 +28,10 @@ public class ContactoDaoMemSerial implements ContactoDao{
 	
 	//Constructor
 	public ContactoDaoMemSerial() {
-		almacen = new HashMap<Integer, Contacto>();//tipo hashMap
-		proximoId = 1;
+//		almacen = new HashMap<Integer, Contacto>();//tipo hashMap
+//		proximoId = 1;
+//		cargaInicial();
+		leerFicheros();
 	}
 	
 	private void cargaInicial() {
@@ -35,17 +41,40 @@ public class ContactoDaoMemSerial implements ContactoDao{
 		grabar();
 	}
 	
+	//Este metodo obtiene los ficheros de memoria
+	private void leerFicheros() {
+		try (FileInputStream fisAlm = new FileInputStream(FICH_ALM);
+				FileInputStream fisId = new FileInputStream(FICH_ID)){
+				ObjectInputStream oisAlm = new ObjectInputStream(fisAlm);
+				ObjectInputStream oisId = new ObjectInputStream(fisId);
+				
+				almacen = (Map<Integer, Contacto>) oisAlm.readObject();//casting 
+				proximoId = (Integer) oisId.readObject();
+				
+		}catch (FileNotFoundException e) {
+			almacen = new HashMap<Integer, Contacto>();//tipo hashMap
+			proximoId = 1;
+			cargaInicial();
+		}
+		catch (Exception e) {
+		e.printStackTrace();
+		throw new RuntimeException();	
+		}
+	}
+	
 	@Override
 	public void insertar(Contacto c) {
 		// Recibe objeto sin id., incrementa el id y lo guarda
 		c.setIdContacto(proximoId++);
 		almacen.put(c.getIdContacto(), c);
+		grabar();
 	}
 
 	@Override
 	public void actualizar(Contacto c) {
 		// Actualizar un contactos
 		almacen.replace(c.getIdContacto() , c);
+		grabar();
 		
 	}
 
@@ -55,6 +84,7 @@ public class ContactoDaoMemSerial implements ContactoDao{
 //		if(almacen.containsKey(idContacto)) {
 //			almacen.remove(idContacto);
 //			return true;
+		grabar();
 //		}
 //		return false;
 		return almacen.remove(idContacto) != null;
@@ -99,7 +129,7 @@ public class ContactoDaoMemSerial implements ContactoDao{
 		return new HashSet<Contacto>(almacen.values());
 	}
 	
-	//metodo propio
+	//metodo propio, grabamos dos datos (map e id) 
 	private void grabar() {
 		try(FileOutputStream fosAlm = new FileOutputStream(FICH_ALM); 
 			FileOutputStream fosId = new FileOutputStream(FICH_ID)	
@@ -109,7 +139,7 @@ public class ContactoDaoMemSerial implements ContactoDao{
 			ObjectOutputStream oosId = new ObjectOutputStream(fosId);
 			
 			oosAlm.writeObject(almacen);
-			oosId.write(proximoId);
+			oosId.writeObject(proximoId);
 			
 		}catch (IOException e) {
 			e.printStackTrace();
