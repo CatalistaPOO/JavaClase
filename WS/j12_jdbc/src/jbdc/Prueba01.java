@@ -13,7 +13,7 @@ public class Prueba01 {
 
 	public static void main(String[] args) {
 		
-		BasicDataSource bds = new BasicDataSource();
+		BasicDataSource bds = new BasicDataSource();//objeto pool, intermedia para gestinar conexiones entre cliente y Servidor de BBDD
 		bds.setUrl("jdbc:mysql://localhost:3366/11_agenda");//path base de datos que usamos
 		bds.setDriverClassName("com.mysql.cj.jdbc.Driver");//Driver que usamos
 		bds.setUsername("root");//Usuario que usa la Base de datos
