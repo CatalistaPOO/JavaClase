@@ -23,7 +23,7 @@ public class Config {
 			bds.setUrl(prop.getProperty("bbdd.url"));
 			bds.setDriverClassName(prop.getProperty("bbdd.driver"));
 			bds.setUsername(prop.getProperty("bbdd.user"));
-			bds.setPassword(prop.getProperty("bbdd.pass"));
+			bds.setPassword(prop.getProperty("bbdd.password"));
 			ds = bds;
 		}
 		return ds;
@@ -40,7 +40,7 @@ public class Config {
 				throw new RuntimeException("No se puede leer el fichero app.properties");
 			}
 		}
-		return null;
+		return prop;
 	}
 	
 }

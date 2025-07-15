@@ -22,7 +22,7 @@ public class AgendaImpl implements Agenda {
 	public AgendaImpl() {
 //		cDao = new ContactoDaoMem();
 //		cDao = new ContactoDaoMemSerial();
-		cDao = new ContactoDaoJDBC);
+		cDao = new ContactoDaoJDBC();
 	}
 
 	@Override
