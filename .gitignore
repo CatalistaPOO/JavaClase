@@ -1,10 +1,2 @@
-# Ignorar archivos y directorios de configuración de Eclipse
-.classpath
-.project
-.settings/
-.metadata/
-
-# Ignorar archivos .class y otros archivos generados
-*.class
-*.log
-*.tmp
+**/bin/*.class
+/.metadata/
