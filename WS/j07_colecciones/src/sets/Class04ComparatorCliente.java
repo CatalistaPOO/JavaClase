@@ -44,17 +44,17 @@ public class Class04ComparatorCliente {
 		}
 		System.out.println();
 		
-		//Entry recoge pares de valor, un set de Entry sera todo el mapa en una Set
-		Set<Entry<Integer,Cliente>> entries = clientes.entrySet();//clientes.entrySet();
-		
-		System.out.println(entries.getClass().getName());
-		
-		for (Entry<Integer , Cliente> entrada : entries) {
-			System.out.println(entrada.getKey() + ":" + entrada.getValue());
-		}
-		
-		//Map ha incorporado el método ForEach
-		clientes.forEach((id,cli) -> System.out.println(id + ": " + cli))
-		
+//		//Entry recoge pares de valor, un set de Entry sera todo el mapa en una Set
+//		Set<Entry<Integer,Cliente>> entries = clientes.entrySet();//clientes.entrySet();
+//		
+//		System.out.println(entries.getClass().getName());
+//		
+//		for (Entry<Integer , Cliente> entrada : entries) {
+//			System.out.println(entrada.getKey() + ":" + entrada.getValue());
+//		}
+//		
+//		//Map ha incorporado el método ForEach
+//		clientes.forEach((id,cli) -> System.out.println(id + ": " + cli))
+//		
 	}
 }
