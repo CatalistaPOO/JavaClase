@@ -1,2 +1,13 @@
-**/bin/*.class
-/.metadata/
+# Ignorar archivos y directorios de configuración de Eclipse
+.classpath
+.project
+.settings/
+.metadata/
+
+# Ignorar archivos .class y otros archivos generados
+*.class
+*.log
+*.tmp
+
+# Ignorar archivo de Mac
+.DS_Store
