@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 
- // Esta clase funcionará como JavaBean.
+ // Esta clase funcionará como JavaBean.(Serializable, contructor sin cuerpo)
 
 @Entity //indicamos que es una clase persistente (la gestiona Hibernate)
 @Table(name = "personas")

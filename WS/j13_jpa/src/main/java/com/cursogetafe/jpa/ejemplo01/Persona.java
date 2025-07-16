@@ -10,14 +10,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 
- // Esta clase funcionará como JavaBean.
+// Esta clase funcionará como JavaBean.(Serializable, contructor sin cuerpo)
 
 @Entity //indicamos que es una clase persistente (la gestiona Hibernate)
-@Table(name = "persona")
+@Table(name = "persona") //indicamos la tabla a la que apunta
+//esta clase es JavaBean e implementa Serializable
 public class Persona implements Serializable{
 	
+	//cuando usamos @Id entiende que el atributo que tiene debajo es un id y el resto se identifican como atributos de la tabla.
 	@Id //indica el atributo que usamos como id(idPersona) y le indicamos como se maneja con GeneratedValue(siguientelínea)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)//indicamos que el valor del id es autoincremental
+	@GeneratedValue(strategy = GenerationType.IDENTITY)//indicamos que el valor del id es autoincremental, es decir cuando crea un nuevo onjeto le asigna un id incrementado
 	private int idPersona;
 	private String apellidos;
 	private String apodo;
@@ -81,7 +83,6 @@ public class Persona implements Serializable{
 		return Objects.hash(idPersona);
 	}
 
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -94,13 +95,10 @@ public class Persona implements Serializable{
 		return idPersona == other.idPersona;
 	}
 
-
 	@Override
 	public String toString() {
 		return "Persona [idPersona=" + idPersona + ", apellidos=" + apellidos + ", apodo=" + apodo + ", nombre="
 				+ nombre + ", dni=" + dni + "]";
 	}
-	
-	
 	
 }

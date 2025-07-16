@@ -11,8 +11,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 
-@Entity
-@Table(name="persona04")
+@Entity //Indicamos a Hibernate que maneje esta clase
+@Table(name="persona04")// indicamos tabla de la BBDD
 public class Persona03 implements Serializable{
 	
 	@Id //indica el atributo que usamos como id(idPersona) y le indicamos como se maneja con GeneratedValue(siguientelínea)
@@ -23,7 +23,7 @@ public class Persona03 implements Serializable{
 	private String nombre;
 	private String dni;
 	
-	@Embedded
+	@Embedded //añade los atributos de la clase Domicilio a esta clase (como si fuese un join de SQL)
 	private Domicilio dom;
 	
 	

@@ -9,7 +9,7 @@ import jakarta.persistence.EntityManagerFactory;
 
 public class Test01 {
 	public static void main(String[] args) {
-		//unidad de persistencia
+		//unidad de persistencia para conexión (pool o DataSource)
 		EntityManagerFactory emf = Config.getEmf();
 		//Interactua con la persistencia
 		EntityManager em = emf.createEntityManager();
@@ -22,7 +22,7 @@ public class Test01 {
 		//if (rs.next()) {
 		//	Personap p = new Persona();...	todo este proceso se sustituye por las lineas de abajo
 		
-		//Lo sustituimos por este proceso
+		//Lo sustituimos por este proceso con Maven(librerias jakarta) que simplifica todo
 		Persona p = em.find(Persona.class, 12);
 		if (p != null)
 			System.out.println(p);

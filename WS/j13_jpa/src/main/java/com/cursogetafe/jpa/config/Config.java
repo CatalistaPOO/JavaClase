@@ -9,7 +9,7 @@ public class Config {
 	
 	private Config(){}
 	
-	//Singleton
+	//Singleton: Construcción de un unico pool o DataSource
 	 public static EntityManagerFactory getEmf() {
 		 if (emf == null) {
 			 emf = Persistence.createEntityManagerFactory("cursoJPA");

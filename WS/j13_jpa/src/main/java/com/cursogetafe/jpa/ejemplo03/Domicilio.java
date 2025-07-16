@@ -13,11 +13,12 @@ public class Domicilio implements Serializable {
 	private String ciudad;
 	private String provincia;
 	
+	//Constructor por defecto
 	public Domicilio() {
 		super();
 	}
 
-	//Constructor
+	//Constructor con sobrecargas
 	public Domicilio(String tipoVia, String via, int numero, int piso, String puerta, String codigoPostal,
 			String ciudad, String provincia) {
 		super();
