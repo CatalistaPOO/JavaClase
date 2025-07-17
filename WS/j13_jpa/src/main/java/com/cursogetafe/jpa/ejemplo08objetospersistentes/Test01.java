@@ -23,10 +23,10 @@ public class Test01 {
 			System.out.println("Esta Persona no existe!!");
 		
 		p.setApodo("TioMolesto");
-		//sigo trabajando...
+		//sigo trabajando...pero apodo se queda sin asignación
 		
 		Persona nueva = new Persona(0,"Apenuevo", "nombreNuevo");
-		
+		//en esta transaccion va a pasar el apodo sin asignación en el objeto que está en persistencia
 		em.getTransaction().begin();
 		em.persist(nueva);
 		em.getTransaction().commit();
