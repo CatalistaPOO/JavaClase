@@ -1,8 +1,9 @@
-package com.cursogetafe.jpa.ejemplo06herenciajoined;
+package com.cursogetafe.jpa.ejemplo07herenciasingletable;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,9 +13,10 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="figuras02")
-@Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Figura implements Serializable {
+@Table(name="figuras01")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo_figura")
+public abstract class Figura02 implements Serializable {
 	
 	
 		@Id
@@ -23,9 +25,9 @@ public abstract class Figura implements Serializable {
 		private double x;
 		private double y;
 		
-		public Figura(){}
+		public Figura02(){}
 		
-		public Figura(double x,double y) {
+		public Figura02(double x,double y) {
 			this.x = x;
 			this.y = y;
 		}
@@ -85,7 +87,7 @@ public abstract class Figura implements Serializable {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			Figura other = (Figura) obj;
+			Figura02 other = (Figura02) obj;
 			return idFigura == other.idFigura;
 		}
 

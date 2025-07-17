@@ -1,12 +1,13 @@
-package com.cursogetafe.jpa.ejemplo06herenciajoined;
+package com.cursogetafe.jpa.ejemplo07herenciasingletable;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "rectangulo_02")
-public class Rectangulo extends Figura{
+@DiscriminatorValue("RECTANGULO")
+public class Rectangulo02 extends Figura02{
 	
 		@Column(name = "l1")
 		private double lado1;
@@ -14,9 +15,9 @@ public class Rectangulo extends Figura{
 		@Column(name = "l2")
 		private double lado2;
 		
-		public Rectangulo(){};
+		public Rectangulo02(){};
 		
-		public Rectangulo(double x, double y, double lado1, double lado2){
+		public Rectangulo02(double x, double y, double lado1, double lado2){
 			super(x, y);
 			this.lado1 = lado1;
 			this.lado2 = lado2;

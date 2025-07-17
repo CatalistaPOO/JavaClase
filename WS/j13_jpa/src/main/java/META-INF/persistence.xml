@@ -16,6 +16,12 @@
         <class>com.cursogetafe.jpa.ejemplo04pkcompuesta.Persona04B</class>
         <class>com.cursogetafe.jpa.ejemplo04pkcompuesta.DniB</class>
         <class>com.cursogetafe.jpa.ejemplo05tipoacceso.Persona05</class>
+        <class>com.cursogetafe.jpa.ejemplo06herenciajoined.Figura</class>
+        <class>com.cursogetafe.jpa.ejemplo06herenciajoined.Rectangulo</class>
+        <class>com.cursogetafe.jpa.ejemplo06herenciajoined.Circulo</class>
+        <class>com.cursogetafe.jpa.ejemplo07herenciasingletable.Figura02</class>
+        <class>com.cursogetafe.jpa.ejemplo07herenciasingletable.Rectangulo02</class>
+        <class>com.cursogetafe.jpa.ejemplo07herenciasingletable.Circulo02</class>
 
         
         <properties>
