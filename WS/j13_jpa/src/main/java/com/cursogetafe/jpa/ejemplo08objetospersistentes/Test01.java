@@ -1,10 +1,8 @@
 package com.cursogetafe.jpa.ejemplo08objetospersistentes;
 
 import java.sql.PreparedStatement;
-
 import com.cursogetafe.jpa.config.Config;
 import com.cursogetafe.jpa.ejemplo01mapeosimple.Persona;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 

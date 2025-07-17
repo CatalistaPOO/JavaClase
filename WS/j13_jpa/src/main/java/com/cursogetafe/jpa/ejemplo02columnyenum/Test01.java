@@ -1,7 +1,6 @@
 package com.cursogetafe.jpa.ejemplo02columnyenum;
 
 import com.cursogetafe.jpa.config.Config;
-
 import jakarta.persistence.EntityManager;
 
 public class Test01 {

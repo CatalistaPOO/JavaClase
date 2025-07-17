@@ -1,9 +1,7 @@
 package com.cursogetafe.jpa.ejemplo05tipoacceso;
 
 import java.sql.PreparedStatement;
-
 import com.cursogetafe.jpa.config.Config;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 

@@ -1,7 +1,6 @@
 package com.cursogetafe.jpa.ejemplo03insertables;
 
 import com.cursogetafe.jpa.config.Config;
-
 import jakarta.persistence.EntityManager;
 
 public class Test01 {
