@@ -1,8 +1,10 @@
-package com.cursogetafe.jpa.ejemplo03;
+package com.cursogetafe.jpa.ejemplo03insertables;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,7 +14,7 @@ import jakarta.persistence.Table;
 
 
 @Entity //Indicamos a Hibernate que maneje esta clase
-@Table(name="persona04")// indicamos tabla de la BBDD
+@Table(name="persona_04")// indicamos tabla de la BBDD
 public class Persona03 implements Serializable{
 	
 	@Id //indica el atributo que usamos como id(idPersona) y le indicamos como se maneja con GeneratedValue(siguientelínea)
@@ -24,6 +26,8 @@ public class Persona03 implements Serializable{
 	private String dni;
 	
 	@Embedded //añade los atributos de la clase Domicilio a esta clase (como si fuese un join de SQL)
+	@AttributeOverride (name = "tipoVia" , column = @Column(name="tipovia"))//para sobreescribir el mapeo de columnas de un atributo de una clase @Embeddable
+	@AttributeOverride(name = "codigopostal", column= @Column(name="codigopostal"))
 	private Domicilio dom;
 	
 	
@@ -87,6 +91,7 @@ public class Persona03 implements Serializable{
 		return "Persona03 [idPersona=" + idPersona + ", apellidos=" + apellidos + ", apodo=" + apodo + ", nombre="
 				+ nombre + ", dni=" + dni + ", dom=" + dom + "]";
 	}
+
 	
 	
 }

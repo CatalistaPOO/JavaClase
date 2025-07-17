@@ -1,66 +1,52 @@
-package com.cursogetafe.jpa.ejemplo02columnyenum;
+package com.cursogetafe.jpa.ejemplo05tipoacceso;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 
- // Esta clase funcionará como JavaBean.(Serializable, contructor sin cuerpo)
+// Esta clase funcionará como JavaBean.(Serializable, contructor sin cuerpo)
 
 @Entity //indicamos que es una clase persistente (la gestiona Hibernate)
-@Table(name = "personas")
-public class Persona02 implements Serializable{
+@Table(name = "persona") //indicamos la tabla a la que apunta
+//esta clase es JavaBean e implementa Serializable
+public class Persona05 implements Serializable{
 	
+	//cuando usamos @Id entiende que el atributo que tiene debajo es un id y el resto se identifican como atributos de la tabla.
 	@Id //indica el atributo que usamos como id(idPersona) y le indicamos como se maneja con GeneratedValue(siguientelínea)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)//indicamos que el valor del id es autoincremental
-	@Column(name="id_persona")//esta nota indica a qué columna hace referencia en la tabla de la BBDD
+	@GeneratedValue(strategy = GenerationType.IDENTITY)//indicamos que el valor del id es autoincremental, es decir cuando crea un nuevo onjeto le asigna un id incrementado
 	private int idPersona;
-	
-	@Column(name="p_apellidos")
 	private String apellidos;
-	
-	@Column(name="p_apodo")
 	private String apodo;
-	
-	@Column(name="p_nombre")
 	private String nombre;
-	
-	@Column(name="p_dni")
 	private String dni;
 	
-	@Enumerated(EnumType.STRING)//Utiliza el nombre de las constantes(string)
-	@Column(name = "p_sexo")
-	private Genero genero;//este atributo apunta a la clase Enum Genero
-	
-	@Transient //con esta anotación decimos que hibernate(jakarta) obvie este atributo
-	private String nombreYApellidos;//este atributo no existe en la BBDD
 	
 	//constructor por defecto
-	public Persona02(){}
+	public Persona05(){}
 
-	public Persona02(int idPersona, String apellidos, String nombre) {
-		super();
+	public Persona05(int idPersona, String apellidos, String nombre) {
+		
 		this.idPersona = idPersona;
 		this.apellidos = apellidos;
 		this.nombre = nombre;
 	}
 
-
+	//access properties: las anotaciones de metodo anulan las anotaciones de propiedades
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getIdPersona() {
 		return idPersona;
 	}
 
 
 	public void setIdPersona(int idPersona) {
+		System.out.println("setidPersona");
 		this.idPersona = idPersona;
 	}
 
@@ -71,6 +57,7 @@ public class Persona02 implements Serializable{
 
 
 	public void setApellidos(String apellidos) {
+		System.out.println("setApellidos");
 		this.apellidos = apellidos;
 	}
 
@@ -81,6 +68,7 @@ public class Persona02 implements Serializable{
 
 
 	public void setApodo(String apodo) {
+		System.out.println("setApodo");
 		this.apodo = apodo;
 	}
 
@@ -93,28 +81,12 @@ public class Persona02 implements Serializable{
 	public void setDni(String dni) {
 		this.dni = dni;
 	}
-	
-	public Genero getGenero() {
-		return genero;
-	}
 
-	public void setGenero(Genero genero) {
-		this.genero = genero;
-	}
-
-	public String getNombreYApellidos() {
-		return nombreYApellidos;
-	}
-
-	public void setNombreYApellidos(String nombreYApellidos) {
-		this.nombreYApellidos = nombreYApellidos;
-	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(idPersona);
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -124,17 +96,14 @@ public class Persona02 implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Persona02 other = (Persona02) obj;
+		Persona05 other = (Persona05) obj;
 		return idPersona == other.idPersona;
 	}
-
 
 	@Override
 	public String toString() {
 		return "Persona [idPersona=" + idPersona + ", apellidos=" + apellidos + ", apodo=" + apodo + ", nombre="
 				+ nombre + ", dni=" + dni + "]";
 	}
-	
-	
 	
 }
