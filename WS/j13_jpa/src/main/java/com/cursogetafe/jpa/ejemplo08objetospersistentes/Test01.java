@@ -1,6 +1,6 @@
 package com.cursogetafe.jpa.ejemplo08objetospersistentes;
 
-import java.sql.PreparedStatement;
+//import java.sql.PreparedStatement;
 import com.cursogetafe.jpa.config.Config;
 import com.cursogetafe.jpa.ejemplo01mapeosimple.Persona;
 import jakarta.persistence.EntityManager;
@@ -24,7 +24,7 @@ public class Test01 {
 		//sigo trabajando...pero apodo se queda sin asignación
 		
 		Persona nueva = new Persona(0,"Apenuevo", "nombreNuevo");
-		//en esta transaccion va a pasar el apodo sin asignación en el objeto que está en persistencia
+		//en esta transaccion va a pasar el apodo sin asignación(TioMolesto) en el objeto que está en persistencia
 		em.getTransaction().begin();
 		em.persist(nueva);
 		em.getTransaction().commit();

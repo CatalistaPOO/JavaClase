@@ -22,7 +22,12 @@
         <class>com.cursogetafe.jpa.ejemplo07herenciasingletable.Figura02</class>
         <class>com.cursogetafe.jpa.ejemplo07herenciasingletable.Rectangulo02</class>
         <class>com.cursogetafe.jpa.ejemplo07herenciasingletable.Circulo02</class>
-
+        <class>com.cursogetafe.jpa.ejemplo09onetoone.Contacto</class>
+        <class>com.cursogetafe.jpa.ejemplo09onetoone.Domicilio</class>
+        <class>com.cursogetafe.jpa.ejemplo10elemntcolection.ContactoConTelefonos</class>
+        <class>com.cursogetafe.jpa.ejemplo11manytoone.Campo</class>
+        <class>com.cursogetafe.jpa.ejemplo11manytoone.Partido</class>
+	
         
         <properties>
             <!-- JDBC -->
