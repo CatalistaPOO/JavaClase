@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "partidos")
-public class Partido implements Serializable{
+public class Partido2 implements Serializable{
 	
 	private static final long serialVersionUID = 1L;//asigna nro de version
 	@Id
@@ -24,7 +24,7 @@ public class Partido implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name = "idcampo")
-	private Campo campo;
+	private Campo2 campo;
 	
 	
 	public int getIdPartido() {
@@ -39,10 +39,10 @@ public class Partido implements Serializable{
 	public void setPartido(String partido) {
 		this.partido = partido;
 	}
-	public Campo getCampo() {
+	public Campo2 getCampo() {
 		return campo;
 	}
-	public void setCampo(Campo campo) {
+	public void setCampo(Campo2 campo) {
 		this.campo = campo;
 	}
 	
@@ -59,7 +59,7 @@ public class Partido implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Partido other = (Partido) obj;
+		Partido2 other = (Partido2) obj;
 		return idPartido == other.idPartido;
 	}
 	@Override

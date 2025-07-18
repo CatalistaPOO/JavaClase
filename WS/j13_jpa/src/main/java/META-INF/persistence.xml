@@ -27,6 +27,10 @@
         <class>com.cursogetafe.jpa.ejemplo10elemntcolection.ContactoConTelefonos</class>
         <class>com.cursogetafe.jpa.ejemplo11manytoone.Campo</class>
         <class>com.cursogetafe.jpa.ejemplo11manytoone.Partido</class>
+        <class>com.cursogetafe.jpa.ejemplo11manytoone.Campo2</class>
+        <class>com.cursogetafe.jpa.ejemplo11manytoone.Partido2</class>
+        <class>com.cursogetafe.jpa.ejemplo12manytomany.Equipo</class>
+        <class>com.cursogetafe.jpa.ejemplo12manytomany.Jugador</class>
 	
         
         <properties>
