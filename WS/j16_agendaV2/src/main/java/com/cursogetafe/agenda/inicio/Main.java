@@ -18,6 +18,5 @@ public class Main {
 			new MenuPrincipal();//Menu por consola
 		}
 		
-	
 	}
 }

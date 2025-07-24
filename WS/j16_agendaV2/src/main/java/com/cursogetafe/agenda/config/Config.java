@@ -23,7 +23,7 @@ public class Config {
 	//Singleton: Construcción de un unico pool o DataSource
 	 public static EntityManagerFactory getEmf() {
 		 if (emf == null) {
-			 emf = Persistence.createEntityManagerFactory("ejercicioJPA");
+			 emf = Persistence.createEntityManagerFactory("agenda");
 		 }
 		 return emf;
 	 }

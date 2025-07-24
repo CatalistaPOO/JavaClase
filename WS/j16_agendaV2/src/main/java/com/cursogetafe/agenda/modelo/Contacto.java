@@ -14,8 +14,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -27,23 +25,24 @@ public class Contacto implements Comparable<Contacto>, Cloneable,Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name ="idcontactos")
 	private int idContacto;
 	private String nombre;
 	private String apellidos;
 	private String apodo;
 	
 	@Embedded
-	@AttributeOverride(name = "tipoVia" , column = @Column(name="tipovia"))
-	@AttributeOverride(name = "codigoPostal", column = @Column(name="codigoPostal"))
+	@AttributeOverride(name = "tipoVia" , column = @Column(name="tipo_via"))
+	@AttributeOverride(name = "codigoPostal", column = @Column(name="codigo_postal"))
 	private Domicilio dom;
 	
 	@ElementCollection
-	@CollectionTable(name = "telefonos", joinColumns = {@JoinColumn(name = "idcontacto")})
+	@CollectionTable(name = "telefonos", joinColumns = {@JoinColumn(name = "fk_contacto")})
 	@Column(name = "telefono")
 	private Set<String> telefonos;
 	
 	@ElementCollection
-	@CollectionTable(name = "correos", joinColumns = {@JoinColumn(name = "idcontacto")})
+	@CollectionTable(name = "correos", joinColumns = {@JoinColumn(name = "fk_contacto")})
 	@Column(name = "correo")
 	private Set<String> correos;
 	

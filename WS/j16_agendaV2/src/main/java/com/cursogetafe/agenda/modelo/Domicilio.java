@@ -2,7 +2,6 @@ package com.cursogetafe.agenda.modelo;
 
 import java.io.Serializable;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 
@@ -11,14 +10,13 @@ public class Domicilio implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Column(name = "tipovia")
+	
 	private String tipoVia;
 	private String via;
 	private int numero;
 	private int piso;
 	private String puerta;
 	
-	@Column(name = "codigopostal")
 	private String codigoPostal;
 	private String ciudad;
 	private String provincia;
