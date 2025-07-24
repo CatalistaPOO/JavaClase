@@ -1,12 +1,16 @@
 package com.cursogetafe.agenda.persistencia;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
+import com.cursogetafe.agenda.config.Config;
 import com.cursogetafe.agenda.modelo.Contacto;
-import com.cursogetafe.jpa.config.Config;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.TypedQuery;
 
 public class ContactoDaoJPA implements ContactoDao{
 	
@@ -41,63 +45,89 @@ public class ContactoDaoJPA implements ContactoDao{
 		} catch (Exception e) {
 			e.printStackTrace();
 			em.getTransaction().rollback();
+		}finally {
+			em.close();
 		}
-		em.close();
 		
 	}
 
 	@Override
 	public boolean eliminar(int idContacto) {
 		em = emf.createEntityManager();
-		try {
-			em.getTransaction().begin();
-			
-			em.remove(em.find(Contacto.class, idContacto));
-			em.getTransaction().commit();
-			emf.close();
-			return true;
-			
-		} catch (Exception e) {
-			em.getTransaction().rollback();
-			emf.close();
-			return false;
+		Contacto aEliminar = em.find(Contacto.class, idContacto);
+		if (aEliminar != null) {
+			try {
+				em.getTransaction().begin();
+				em.remove(aEliminar);
+				em.getTransaction().commit();
+				return true;
+				
+			} catch (Exception e) {
+				e.printStackTrace();//hacer un log
+				em.getTransaction().rollback();
+				return false;
+			}finally {
+				emf.close();
+			}
 		}
-	
+		else 
+			return false;
 	}
 
 	@Override
 	public boolean eliminar(Contacto c) {
-		em = emf.createEntityManager();
-		try {
-			em.getTransaction().begin();
-			em.remove(c);
-			em.getTransaction().commit();
-			emf.close();
-			return true;
-			
-		} catch (Exception e) {
-			em.getTransaction().rollback();
-			emf.close();
-			return false;
-		}
+		return eliminar(c.getIdContacto());
 	}
 
+	
+	//este metodo debe retornar los contactos con sus telefonos y correos
 	@Override
 	public Contacto buscar(int idContacto) {
-		// TODO Auto-generated method stub
-		return null;
+		em = emf.createEntityManager();
+		String jpql = "select c from Contacto c" +
+						" left join fetch c.telefonos " +
+						" left join fetch c.correos " +
+						"where c.idContacto = :id";
+		TypedQuery<Contacto> q = em.createQuery(jpql, Contacto.class);
+		q.setParameter("id", idContacto);
+		Contacto buscado = q.getSingleResultOrNull();
+		em.close();
+		return buscado;
+		
+		//otra manera
+//		em = emf.createEntityManager();
+//		Contacto cBuscado = em.find(Contacto.class, idContacto);
+//		if (cBuscado != null) {
+//			cBuscado.getTelefonos().size();
+//			cBuscado.getCorreos().size();
+//		}
+//		em.close();
+//		return cBuscado;
 	}
 
+	//este metodo debe retornar los contactos SIN sus telefonos y correos
 	@Override
 	public Set<Contacto> buscar(String cadena) {
-		// TODO Auto-generated method stub
-		return null;
+		em = emf.createEntityManager();
+		String jpql = "select c from Contacto c" +
+						" where c.nombre like :cad " +
+						" or c.apellidos like :cad " +
+						"or c.apodo like :cad";
+		TypedQuery<Contacto> q = em.createQuery(jpql, Contacto.class);
+		q.setParameter("cad", "%" + cadena + "%");
+		HashSet<Contacto> resu = new HashSet<Contacto>(q.getResultList());
+		em.close();
+		return resu;
 	}
 
 	@Override
 	public Set<Contacto> buscarTodos() {
-		// TODO Auto-generated method stub
-		return null;
+		em = emf.createEntityManager();
+		String jpql = "select c from Contacto c" ;
+		TypedQuery<Contacto> q = em.createQuery(jpql, Contacto.class);
+		HashSet<Contacto> resu = new HashSet<Contacto>(q.getResultList());
+		em.close();
+		return resu;
 	}
 
 }

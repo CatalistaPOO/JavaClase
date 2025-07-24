@@ -18,7 +18,7 @@ public class Consulta07 {
 		EntityManager em = Config.getEmf().createEntityManager();
 		//Devolver todos los clientes usando clienteDTO
 		String jpql = "select com.getafe.ejerciciojpa.modelo(c.idRol, c.idCliente, c.persona.apellidos, c.nroCliente, c.categoria)" 
-				+ " from Cliente c";//consulta JPQL llamando al constructor (del record (el path de la claseClienteCategoria))
+				+ " from Cliente c";//consulta JPQL llamando al constructor (del record (el path de la clase ClienteCategoria))
 		TypedQuery<ClienteDTO> q = em.createQuery(jpql, ClienteDTO.class);
 		
 		return q.getResultList();

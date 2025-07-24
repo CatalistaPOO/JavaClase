@@ -6,7 +6,7 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.commons.dbcp2.BasicDataSource;
 
 import jakarta.persistence.EntityManagerFactory;//pertenece a hibernate
 import jakarta.persistence.Persistence;
@@ -23,7 +23,7 @@ public class Config {
 	//Singleton: Construcción de un unico pool o DataSource
 	 public static EntityManagerFactory getEmf() {
 		 if (emf == null) {
-			 emf = Persistence.createEntityManagerFactory("ejercicioJPA");
+			 emf = Persistence.createEntityManagerFactory("agenda");
 		 }
 		 return emf;
 	 }
@@ -41,7 +41,7 @@ public class Config {
 			return ds;
 		}
 		
-		private static Properties getProp() {
+		public static Properties getProp() {
 			//coge el fichero properties lo lee y lo mete en las propiedades para usar con la base de datos(si está vacío busca fichero de pares
 			if(prop == null) {
 				prop = new Properties();
