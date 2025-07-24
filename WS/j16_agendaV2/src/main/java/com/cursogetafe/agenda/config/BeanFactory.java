@@ -13,19 +13,23 @@ public class BeanFactory {
 	public static ContactoDao getContactoDao() {
 		
 		String tipoDao = Config.getProp().getProperty("dao");
-		//Hace un retorno del case del Switch
+		
 		return switch (tipoDao) {
-		case "mem" -> new ContactoDaoMem();		
-		case "serial" -> new ContactoDaoMemSerial();		
-		case "jdbc" -> new ContactoDaoJDBC();	
+
+		case "mem" -> new ContactoDaoMem();
+		case "serial" -> new ContactoDaoMemSerial();
+		case "jdbc" -> new ContactoDaoJDBC();
 		default -> new ContactoDaoJPA();
+
 		};
 	}
 	
 	public static Agenda getAgenda() {
+
 		String negocio = Config.getProp().getProperty("negocio");
 		return switch(negocio) {
 		default -> new AgendaImpl();
+
 		};
 	}
 	
