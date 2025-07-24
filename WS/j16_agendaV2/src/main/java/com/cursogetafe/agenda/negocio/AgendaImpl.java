@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.cursogetafe.agenda.config.BeanFactory;
 import com.cursogetafe.agenda.modelo.Contacto;
 import com.cursogetafe.agenda.persistencia.ContactoDao;
 import com.cursogetafe.agenda.persistencia.ContactoDaoJPA;
@@ -19,7 +20,10 @@ public class AgendaImpl implements Agenda {
 //		cDao = new ContactoDaoMem();
 //		cDao = new ContactoDaoMemSerial();
 //		cDao = new ContactoDaoJDBC();
-		cDao = new ContactoDaoJPA();
+//		cDao = new ContactoDaoJPA();
+		//con esta llamada lo que hace es desde el metodo estatico (de la clase BeanFactory) 
+		// obtener el tipo que vamos a usar(mem,serial,jdbc,jpa), leyendo de app.properties
+		cDao = BeanFactory.getContactoDao();
 	}
 
 	@Override
@@ -58,7 +62,7 @@ public class AgendaImpl implements Agenda {
 	
 	@Override
 	public Set<Contacto> buscarTodos() {
-		// Buscar con comparator y añadir a un TreeSet los contactos
+		// Buscar con comparator y añadir a un TreeSet los contactos(ordenandolo por apodo en el TreeSet con getComparatorApodo()
 		Set<Contacto> contactos = new TreeSet<Contacto>(getComparatorApodo());
 		contactos.addAll(cDao.buscarTodos());
 		return contactos;
