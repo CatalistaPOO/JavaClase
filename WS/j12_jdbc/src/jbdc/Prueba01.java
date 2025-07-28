@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 //DataSource lee en origen de lacarpeta que contiene los drivers JDBC (DriversJar), carpeta exterior a los projectos Java(WS)
+// sobre projecto, click derecho>build path>configure buildpath. En la pestaña libraries, seleccionamos import external jar y dar ruta de los 3 drivers en nuestr proyecto (/java/DriversJar)
 import org.apache.commons.dbcp.BasicDataSource;
 
 public class Prueba01 {

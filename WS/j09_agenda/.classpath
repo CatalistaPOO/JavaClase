@@ -9,5 +9,8 @@
 	<classpathentry kind="lib" path="/Users/mananas/Desktop/JavaClase/DriversJar/commons-dbcp-1.4.jar"/>
 	<classpathentry kind="lib" path="/Users/mananas/Desktop/JavaClase/DriversJar/commons-pool-1.5.4.jar"/>
 	<classpathentry kind="lib" path="/Users/mananas/Desktop/JavaClase/DriversJar/mysql-connector-j-9.3.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/fthog/Desktop/JavaClase/DriversJar/commons-dbcp-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/fthog/Desktop/JavaClase/DriversJar/commons-pool-1.5.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/fthog/Desktop/JavaClase/DriversJar/mysql-connector-j-9.3.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
