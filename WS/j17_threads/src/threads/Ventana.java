@@ -1,4 +1,4 @@
-package hreads;
+package threads;
 
 import java.awt.event.WindowEvent;
 
