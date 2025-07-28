@@ -20,6 +20,10 @@ public class ContactoDaoJPA implements ContactoDao{
 	public ContactoDaoJPA() {
 		emf = Config.getEmf();
 	}
+	
+	public ContactoDaoJPA(EntityManagerFactory emf) {
+		this.emf = emf;
+	}
 
 	@Override
 	public void insertar(Contacto c) {
@@ -67,7 +71,7 @@ public class ContactoDaoJPA implements ContactoDao{
 				em.getTransaction().rollback();
 				return false;
 			}finally {
-				emf.close();
+				em.close();
 			}
 		}
 		else 

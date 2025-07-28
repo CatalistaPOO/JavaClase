@@ -56,7 +56,7 @@ public class Contacto implements Comparable<Contacto>, Cloneable,Serializable {
 	
 	
 	public Contacto(int idContacto, String nombre, String apellidos, String apodo, Domicilio dom) {
-		super();
+		this();
 		this.idContacto = idContacto;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
@@ -75,8 +75,8 @@ public class Contacto implements Comparable<Contacto>, Cloneable,Serializable {
 		this.dom = dom;
 		this.idContacto = idContacto;
 //		Lee estos atributos del constructor principal
-//		this.telefonos = telefonos; 
-//		this.correos = correos;
+		this.telefonos = telefonos; 
+		this.correos = correos;
 	}
 
 	//Getters y Setters
@@ -131,7 +131,7 @@ public class Contacto implements Comparable<Contacto>, Cloneable,Serializable {
 		this.correos = correos;
 	}
 	//Este metodo sustituiría a set correos permitiendo la insercion de varios correos
-	public void addCorreos(String... coreeos) {
+	public void addCorreos(String... correos) {
 		for (String correo : correos) {
 			this.correos.add(correo);
 		}
