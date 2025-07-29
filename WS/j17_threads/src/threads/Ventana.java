@@ -1,5 +1,6 @@
 package threads;
 
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
@@ -21,5 +22,16 @@ public class Ventana extends JFrame{
 	
 	public static void main(String[] args) {
 		new Ventana();
+		int cont = 0;
+		
+		while (true) {
+			
+			//demora 
+			for (int i = 0; i < 10_000_000; i++) {
+				
+			}
+			
+			System.out.println(cont++);
+		}
 	}
 }
