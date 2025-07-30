@@ -49,7 +49,6 @@ public class ServidorChat {
 		private static Map<String, AtiendeCliente> sala = new HashMap<>();
 		
 		public AtiendeCliente(Socket socket) {
-			
 			this.socket = socket;
 			new Thread(this).start();
 		}
@@ -58,7 +57,7 @@ public class ServidorChat {
 		@Override
 		public void run() {
 			
-			log("Nuevo cliente(o inconsciente) conectado");
+			log("Nuevo cliente/incauto conectado");
 			
 			try(PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
@@ -74,6 +73,7 @@ public class ServidorChat {
 					out.println("Usuario incorrecto o ya existe");
 					out.println ("Ingresa tu usuario");
 					user = in.readLine();
+					user = user.replaceAll(" ", "_");
 				}
 				
 				out.println(user + " ya estas en la sala");
@@ -86,7 +86,10 @@ public class ServidorChat {
 				difusion("SRV: " + user + " se ha conectado");
 				
 				String linea;
-				while ((linea = in.readLine()) != null) {
+				boolean sesion = true;
+				
+				
+				while (sesion && (linea = in.readLine()) != null) {
 					//controla que haya @ y algo (separa el nombre de usuario y el mensaje
 					if (linea.length() > 0 && linea.charAt(0)== '@') {
 						if (linea.contains(" ")) {
@@ -107,15 +110,25 @@ public class ServidorChat {
 					}
 					else { //no es un mensaje privado
 						switch(linea.toLowerCase()) {
-						case "-w" , "who":
+						case "-w" , "-who":
 							for (String usr : sala.keySet()) {
 								out.println("SRV: " + user);
 							}
 						break;
-						case "-h", "help":
+						
+						case "-h", "-help":
 							help();
 						break;
 						
+						case "-q", "-quit":
+							out.println("SRV: " + "Hasta la vista Baby!!");
+							sala.remove(user);
+							cant --;
+							difusion("SRV: " + user + " se ha desconectado");
+							log(user + " se ha desconectado");
+							sesion = false;
+							socket.close();
+						break;
 							
 						default:
 							difusion(user + ": " + linea);
