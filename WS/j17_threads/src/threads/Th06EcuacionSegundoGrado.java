@@ -2,7 +2,7 @@ package threads;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-
+//Esta clase no está preparada aún
 //Esta clase divide en hilos las tareas esperando los resultados en algunos hilos, si falla uno de los procesos debe tirar la excepcion
 public class Th06EcuacionSegundoGrado {
 
