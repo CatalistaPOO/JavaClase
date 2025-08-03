@@ -30,6 +30,9 @@ public class TestHashMap {
 		System.out.println(clientes.get(168));
 		System.out.println(clientes.get(999));
 		
+		System.out.println("-----------------");
+		System.out.println("-----------------");
+		
 		// Los maps no son iterables
 		// puedo obtener una coleccion de los valores o un set  de las claves:
 		Collection<Cliente> valores = clientes.values();
@@ -37,6 +40,9 @@ public class TestHashMap {
 		
 		valores.forEach(System.out::println);//println es una referencia a metodo
 		claves.forEach(System.out::println);
+		
+		System.out.println("-----------------");
+		System.out.println("-----------------");
 		
 		for (Integer clave : clientes.keySet()) {
 			System.out.println(clave);

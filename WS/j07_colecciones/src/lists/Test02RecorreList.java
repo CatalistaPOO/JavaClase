@@ -1,6 +1,5 @@
 package lists;
 
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -9,7 +8,7 @@ import java.util.List;
 public class Test02RecorreList {
 	public static void main(String[] args) {
 		
-		 final int cant = 200_000;
+		 final int cant = 100_000;
 		 long t0, tf;
 		 
 		
@@ -27,13 +26,13 @@ public class Test02RecorreList {
 		t0= System.currentTimeMillis();
 		recorre(al);
 		tf= System.currentTimeMillis();
-		System.out.println("ArrayLlist: " + (tf-t0));
-//		
-//		//tiempo para recorrer ll (linkedList)de manera incorrecta
-//		t0= System.currentTimeMillis();
-//		recorre(ll);
-//		tf= System.currentTimeMillis();
-//		System.out.println("LinkedLlist: " + (tf-t0));
+		System.out.println("Tiempo ArrayLlist: " + (tf-t0));
+		
+		//tiempo para recorrer ll (linkedList)de manera incorrecta
+		t0= System.currentTimeMillis();
+		recorre(ll);
+		tf= System.currentTimeMillis();
+		System.out.println("Tiempo LinkedLlist: " + (tf-t0));
 		
 		//recorre con metodo usando iterator
 		t0= System.currentTimeMillis();
@@ -44,12 +43,9 @@ public class Test02RecorreList {
 		t0= System.currentTimeMillis();
 		recorreForEach(ll);
 		tf= System.currentTimeMillis();
-		System.out.println("LinkedLlist con recorreForEach(): " + (tf-t0));
-		
-		
-		
-		
-}
+		System.out.println("LinkedLlist con recorreForEach(): " + (tf-t0));	
+			
+	}
 	
 	public static void cargaLista(List<String> lista, int cant) {
 		for (int i = 0;i< cant;i++) {
@@ -57,6 +53,7 @@ public class Test02RecorreList {
 		}
 	}
 	
+	//este metodo ralentiza mucho porque se recorre mal(no usa iterator)
 	public static void recorre(List<String> lista) {
 		for (int i = 0; i < lista.size(); i++) {
 			String elemento = lista.get(i);
@@ -78,7 +75,7 @@ public class Test02RecorreList {
 	//con clases que hayan implementado la clase iterable
 	public static void recorreForEach(List<String> lista) {
 		for (String elemento : lista) {
-			
+			//trabajo con elemento
 		}
 	}
 	

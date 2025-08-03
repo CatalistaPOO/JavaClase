@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jerarquía de Clases de Java</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F2F2F2;
+            color: #232323;
+        }
+        .container {
+            max-width: 100%;
+            overflow-x: auto;
+        }
+        .hierarchy-container {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .cluster {
+            background-color: #fff;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+        .cluster-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0077C2;
+            margin-bottom: 1rem;
+        }
+        .cluster-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        .item {
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            white-space: nowrap;
+            cursor: pointer;
+            transition: transform 0.1s ease-in-out;
+            max-width: fit-content;
+        }
+        .item:hover {
+            transform: scale(1.05);
+        }
+        /* Estilos de la Leyenda y los nodos de la Jerarquía */
+        .class, .legend-class {
+            background-color: #E6F3F9;
+            border: 2px solid #0077C2;
+        }
+        .abstract-class, .legend-abstract-class {
+            background-color: #E6F3F9;
+            border: 2px dashed #0077C2;
+            font-style: italic;
+        }
+        .interface, .legend-interface {
+            background-color: #eef8ff;
+            border: 3px double #00A1E4; /* Borde doble para interfaces */
+        }
+        
+        /* Modal y su contenido */
+        #infoModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .modal-back {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: #0077C2;
+            display: none;
+        }
+        pre {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+        .method-list {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .method-list-item {
+            cursor: pointer;
+            background-color: #E6F3F9;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.1s ease-in-out;
+            font-size: 0.875rem;
+        }
+        .method-list-item:hover {
+            background-color: #b3e0f4;
+        }
+        .inheritance-path {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        .inheritance-path span {
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-5xl">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#005082]">Jerarquía de Clases de Java (Vista por Conjuntos)</h1>
+            <p class="text-lg text-gray-600 mt-2">Un vistazo a las clases e interfaces de Java organizadas por su función.</p>
+        </header>
+
+        <main class="bg-white rounded-lg shadow-lg p-6 md:p-8 overflow-x-auto">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-[#0077C2]">Leyenda</h2>
+                <div class="flex flex-wrap gap-4 mt-2">
+                    <span class="px-3 py-1 rounded-full text-sm legend-class">Clase</span>
+                    <span class="px-3 py-1 rounded-full text-sm legend-abstract-class">Clase Abstracta</span>
+                    <span class="px-3 py-1 rounded-full text-sm legend-interface">Interface</span>
+                </div>
+            </div>
+
+            <div class="hierarchy-container">
+                <!-- Cluster: Fundamentales de la Plataforma -->
+                <div class="cluster">
+                    <h3 class="cluster-title">Fundamentales de la Plataforma</h3>
+                    <div class="cluster-content">
+                        <div class="class font-bold item" data-class="java.lang.Object">java.lang.Object</div>
+                        <div class="class item" data-class="java.lang.String">java.lang.String</div>
+                        <div class="class item" data-class="java.lang.Character">java.lang.Character</div>
+                        <div class="class item" data-class="java.lang.StringBuilder">java.lang.StringBuilder</div>
+                        <div class="class item" data-class="java.lang.System">java.lang.System</div>
+                        <div class="interface item" data-class="java.lang.Comparable">java.lang.Comparable</div>
+                    </div>
+                </div>
+
+                <!-- Cluster: Manejo de Errores y Excepciones -->
+                <div class="cluster">
+                    <h3 class="cluster-title">Manejo de Errores y Excepciones</h3>
+                    <div class="cluster-content">
+                        <div class="abstract-class font-bold item" data-class="java.lang.Throwable">java.lang.Throwable</div>
+                        <div class="class item" data-class="java.lang.Error">java.lang.Error</div>
+                        <div class="class item" data-class="java.lang.Exception">java.lang.Exception</div>
+                        <div class="class item" data-class="java.lang.RuntimeException">java.lang.RuntimeException</div>
+                        <div class="class item" data-class="NullPointerException">NullPointerException</div>
+                        <div class="class item" data-class="IllegalArgumentException">IllegalArgumentException</div>
+                        <div class="class item" data-class="IndexOutOfBoundsException">IndexOutOfBoundsException</div>
+                        <div class="class item" data-class="OutOfMemoryError">OutOfMemoryError</div>
+                        <div class="class item" data-class="StackOverflowError">StackOverflowError</div>
+                    </div>
+                </div>
+
+                <!-- Cluster: Tipos Envoltorio (Wrapper) -->
+                <div class="cluster">
+                    <h3 class="cluster-title">Tipos Envoltorio (Wrapper)</h3>
+                    <div class="cluster-content">
+                        <div class="abstract-class font-bold item" data-class="java.lang.Number">java.lang.Number</div>
+                        <div class="class item" data-class="java.lang.Integer">java.lang.Integer</div>
+                        <div class="class item" data-class="java.lang.Double">java.lang.Double</div>
+                        <div class="class item" data-class="java.lang.Float">java.lang.Float</div>
+                        <div class="class item" data-class="java.lang.Long">java.lang.Long</div>
+                    </div>
+                </div>
+
+                <!-- Cluster: Clases de Colecciones -->
+                <div class="cluster">
+                    <h3 class="cluster-title">Colecciones</h3>
+                    <div class="cluster-content">
+                        <div class="interface item" data-class="java.lang.Iterable">java.lang.Iterable</div>
+                        <div class="interface item" data-class="java.util.Collection">java.util.Collection</div>
+                        <div class="abstract-class item" data-class="java.util.AbstractCollection">java.util.AbstractCollection</div>
+                        <div class="interface item" data-class="java.util.List">java.util.List</div>
+                        <div class="abstract-class item" data-class="java.util.AbstractList">java.util.AbstractList</div>
+                        <div class="class item" data-class="java.util.ArrayList">java.util.ArrayList</div>
+                        <div class="class item" data-class="java.util.Vector">java.util.Vector</div>
+                        <div class="class item" data-class="java.util.Stack">java.util.Stack</div>
+                        <div class="class item" data-class="java.util.LinkedList">java.util.LinkedList</div>
+                        <div class="interface item" data-class="java.util.Set">java.util.Set</div>
+                        <div class="abstract-class item" data-class="java.util.AbstractSet">java.util.AbstractSet</div>
+                        <div class="class item" data-class="java.util.HashSet">java.util.HashSet</div>
+                        <div class="class item" data-class="java.util.LinkedHashSet">java.util.LinkedHashSet</div>
+                    </div>
+                </div>
+
+                <!-- Cluster: Mapas -->
+                <div class="cluster">
+                    <h3 class="cluster-title">Mapas</h3>
+                    <div class="cluster-content">
+                        <div class="interface item" data-class="java.util.Map">java.util.Map</div>
+                        <div class="abstract-class item" data-class="java.util.AbstractMap">java.util.AbstractMap</div>
+                        <div class="class item" data-class="java.util.HashMap">java.util.HashMap</div>
+                        <div class="class item" data-class="java.util.LinkedHashMap">java.util.LinkedHashMap</div>
+                        <div class="class item" data-class="java.util.TreeMap">java.util.TreeMap</div>
+                    </div>
+                </div>
+                
+                <!-- Cluster: Entrada/Salida de Datos (I/O) -->
+                <div class="cluster">
+                    <h3 class="cluster-title">Entrada/Salida de Datos (I/O)</h3>
+                    <div class="cluster-content">
+                        <div class="interface item" data-class="java.io.Serializable">java.io.Serializable</div>
+                        <div class="class item" data-class="IOException">IOException</div>
+                        <div class="class item" data-class="FileNotFoundException">FileNotFoundException</div>
+                        <div class="abstract-class item" data-class="java.io.InputStream">java.io.InputStream</div>
+                        <div class="class item" data-class="java.io.FileInputStream">java.io.FileInputStream</div>
+                        <div class="class item" data-class="java.io.BufferedInputStream">java.io.BufferedInputStream</div>
+                        <div class="abstract-class item" data-class="java.io.OutputStream">java.io.OutputStream</div>
+                        <div class="class item" data-class="java.io.FileOutputStream">java.io.FileOutputStream</div>
+                        <div class="abstract-class item" data-class="java.io.Reader">java.io.Reader</div>
+                        <div class="class item" data-class="java.io.FileReader">java.io.FileReader</div>
+                        <div class="class item" data-class="java.io.BufferedReader">java.io.BufferedReader</div>
+                        <div class="abstract-class item" data-class="java.io.Writer">java.io.Writer</div>
+                        <div class="class item" data-class="java.io.FileWriter">java.io.FileWriter</div>
+                        <div class="class item" data-class="java.io.PrintWriter">java.io.PrintWriter</div>
+                    </div>
+                </div>
+
+                <!-- Cluster: Concurrencia -->
+                <div class="cluster">
+                    <h3 class="cluster-title">Concurrencia</h3>
+                    <div class="cluster-content">
+                        <div class="interface item" data-class="java.lang.Runnable">java.lang.Runnable</div>
+                        <div class="class item" data-class="java.lang.Thread">java.lang.Thread</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="text-center mt-16 pt-8 border-t border-[#00A1E4]">
+            <p class="text-gray-600">Representación visual de la herencia y la implementación de interfaces en Java.</p>
+        </footer>
+    </div>
+
+    <!-- Modal for class information -->
+    <div id="infoModal" class="hidden">
+        <div class="modal-content">
+            <span class="modal-close" id="closeModal">&times;</span>
+            <span class="modal-back" id="backButton">← Volver</span>
+            <h3 id="modalTitle" class="text-2xl font-bold mb-2"></h3>
+            
+            <div id="classContent">
+                <div id="modalInheritance" class="mb-2 text-sm text-gray-500"></div>
+                <div id="modalImplements" class="mb-4 text-sm text-gray-500"></div>
+                <p id="modalBody" class="text-gray-700"></p>
+                <div id="modalCode" class="mt-4"></div>
+                
+                <h4 id="methodsTitle" class="text-xl font-bold mt-6 mb-2">Métodos</h4>
+                <ul id="methodList" class="method-list"></ul>
+            </div>
+
+            <div id="methodContent" class="hidden">
+                <h4 id="methodTitle" class="text-xl font-bold mb-2"></h4>
+                <p id="methodDescription" class="text-gray-700"></p>
+                <div id="methodExample" class="mt-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const infoModal = document.getElementById('infoModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        const modalCode = document.getElementById('modalCode');
+        const methodList = document.getElementById('methodList');
+        const closeModalButton = document.getElementById('closeModal');
+        const backButton = document.getElementById('backButton');
+        const classContent = document.getElementById('classContent');
+        const methodContent = document.getElementById('methodContent');
+        const methodTitle = document.getElementById('methodTitle');
+        const methodDescription = document.getElementById('methodDescription');
+        const methodExample = document.getElementById('methodExample');
+        const modalInheritance = document.getElementById('modalInheritance');
+        const modalImplements = document.getElementById('modalImplements');
+
+        let currentClass = null;
+
+        const classExplanations = {
+            'java.lang.Object': {
+                inherits: null,
+                implements: [],
+                description: 'La clase raíz de toda jerarquía de clases en Java. Todos los objetos la heredan implícitamente y sus métodos (`equals`, `hashCode`, `toString`) están disponibles para todas las clases.',
+                example: `// Todas las clases heredan de Object por defecto`,
+                methods: {
+                    'equals(Object obj)': {
+                        description: 'Indica si algún otro objeto es "igual a" este. Por defecto, compara referencias.',
+                        example: `
+String s1 = new String("Hola");
+String s2 = new String("Hola");
+System.out.println(s1.equals(s2)); 
+System.out.println(s1 == s2);      
+// Salida:
+// true
+// false
+                        `
+                    },
+                    'toString()': {
+                        description: 'Devuelve una representación de cadena del objeto. La implementación por defecto devuelve el nombre de la clase, un "@" y el código hash del objeto.',
+                        example: `
+class Coche {}
+Coche miCoche = new Coche();
+System.out.println(miCoche.toString());
+// Salida de ejemplo: Coche@2f92e0f4
+                        `
+                    }
+                }
+            },
+            'java.lang.String': {
+                inherits: 'java.lang.Object',
+                implements: ['java.io.Serializable', 'java.lang.Comparable<String>', 'java.lang.CharSequence'],
+                description: 'Una clase inmutable que representa secuencias de caracteres. Es fundamental en la manipulación de texto en Java.',
+                example: `
+String saludo = "Hola";
+String nombre = "Mundo";
+String mensaje = saludo + " " + nombre;
+System.out.println(mensaje);
+// Salida: Hola Mundo
+                `,
+                methods: {
+                    'length()': {
+                        description: 'Devuelve la longitud de la cadena.',
+                        example: `
+String str = "Hola";
+System.out.println(str.length()); 
+// Salida: 4
+                        `
+                    },
+                    'charAt(int index)': {
+                        description: 'Devuelve el carácter en el índice especificado de la cadena.',
+                        example: `
+String str = "Java";
+System.out.println(str.charAt(1));
+// Salida: a
+                        `
+                    },
+                    'equalsIgnoreCase(String anotherString)': {
+                        description: 'Compara esta cadena con otro objeto, ignorando la diferencia de mayúsculas y minúsculas.',
+                        example: `
+String s1 = "hola";
+String s2 = "Hola";
+System.out.println(s1.equals(s2));
+System.out.println(s1.equalsIgnoreCase(s2));
+// Salida:
+// false
+// true
+                        `
+                    }
+                }
+            },
+            'java.lang.Character': {
+                inherits: 'java.lang.Object',
+                implements: ['java.io.Serializable', 'java.lang.Comparable<Character>'],
+                description: 'Una clase envoltorio para el tipo de dato primitivo `char`. Proporciona métodos de utilidad para trabajar con caracteres, como comprobar su tipo o convertirlos.',
+                example: `
+char c1 = 'A';
+char c2 = '1';
+System.out.println(Character.isLetter(c1));
+System.out.println(Character.isDigit(c2));
+// Salida:
+// true
+// true
+                `,
+                methods: {
+                    'isDigit(char ch)': {
+                        description: 'Determina si el carácter especificado es un dígito.',
+                        example: `
+char c = '7';
+System.out.println(Character.isDigit(c));
+// Salida: true
+                        `
+                    },
+                    'toUpperCase(char ch)': {
+                        description: 'Convierte el carácter a mayúscula.',
+                        example: `
+char c = 'a';
+System.out.println(Character.toUpperCase(c));
+// Salida: A
+                        `
+                    }
+                }
+            },
+            'java.lang.StringBuilder': {
+                inherits: 'java.lang.Object',
+                implements: ['java.io.Serializable', 'java.lang.CharSequence'],
+                description: 'Una clase que representa una secuencia mutable de caracteres. Es más eficiente que `String` para operaciones de concatenación y modificación repetidas.',
+                example: `
+StringBuilder sb = new StringBuilder("Hola");
+sb.append(" Mundo");
+sb.insert(4, " cruel");
+System.out.println(sb.toString());
+// Salida: Hola cruel Mundo
+                `,
+                methods: {
+                    'append(String str)': {
+                        description: 'Añade la cadena especificada a la secuencia.',
+                        example: `
+StringBuilder sb = new StringBuilder("A");
+sb.append("B").append("C");
+System.out.println(sb);
+// Salida: ABC
+                        `
+                    }
+                }
+            },
+            'java.lang.System': {
+                inherits: 'java.lang.Object',
+                implements: [],
+                description: 'Una clase final que proporciona métodos estáticos para acceder a recursos del sistema, como la entrada y salida estándar.',
+                example: `
+System.out.println("Mensaje de salida.");
+System.err.println("Mensaje de error.");
+// Salida:
+// Mensaje de salida.
+// Mensaje de error.
+                `,
+                methods: {
+                    'out.println(String s)': {
+                        description: 'Imprime una cadena en la consola, seguida de una nueva línea.',
+                        example: `
+System.out.println("Hola consola.");
+// Salida: Hola consola.
+                        `
+                    }
+                }
+            },
+            'java.lang.Comparable': {
+                inherits: null,
+                implements: [],
+                description: 'Una interfaz que impone un orden total en los objetos de cada clase que la implementa. Es utilizada para la ordenación natural de los objetos.',
+                example: `
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+class Pelicula implements Comparable<Pelicula> {
+    String titulo;
+    public Pelicula(String titulo) { this.titulo = titulo; }
+    public String toString() { return titulo; }
+    public int compareTo(Pelicula otra) {
+        return this.titulo.compareTo(otra.titulo);
+    }
+}
+List<Pelicula> peliculas = new ArrayList<>();
+peliculas.add(new Pelicula("Matrix"));
+peliculas.add(new Pelicula("Avatar"));
+Collections.sort(peliculas);
+System.out.println(peliculas);
+// Salida: [Avatar, Matrix]
+                `,
+                methods: {
+                    'compareTo(T o)': {
+                        description: 'Compara este objeto con el objeto especificado para el orden. Devuelve un valor negativo, cero o positivo si este objeto es menor, igual o mayor que el objeto especificado.',
+                        example: `
+// Implementación en la clase Pelicula de arriba
+@Override
+public int compareTo(Pelicula otra) {
+    return this.titulo.compareTo(otra.titulo);
+}
+// Al comparar "Matrix" con "Avatar" se devuelve un valor positivo.
+                        `
+                    }
+                }
+            },
+            'java.lang.Throwable': {
+                inherits: 'java.lang.Object',
+                implements: ['java.io.Serializable'],
+                description: 'La superclase de todos los errores y excepciones en Java. Representa una condición que puede ser capturada por una cláusula `catch`.',
+                example: `
+try {
+    throw new Exception("Error personalizado.");
+} catch (Throwable t) {
+    System.out.println("Capturé un Throwable: " + t.getMessage());
+}
+// Salida: Capturé un Throwable: Error personalizado.
+                `,
+                methods: {
+                    'getMessage()': {
+                        description: 'Devuelve la cadena de mensaje de detalle de este objeto `Throwable`.',
+                        example: `
+try {
+    throw new Exception("Ha ocurrido un error.");
+} catch (Exception e) {
+    System.out.println(e.getMessage());
+}
+// Salida: Ha ocurrido un error.
+                        `
+                    },
+                    'printStackTrace()': {
+                        description: 'Imprime el seguimiento de la pila de este objeto `Throwable` en el flujo de error estándar.',
+                        example: `
+try {
+    throw new Exception("Un problema.");
+} catch (Exception e) {
+    e.printStackTrace();
+}
+// Salida: (Una traza de la pila que muestra dónde se originó la excepción)
+                        `
+                    }
+                }
+            },
+            'java.lang.Error': { inherits: 'java.lang.Throwable', implements: [], description: 'Una subclase de `Throwable` que indica problemas serios que una aplicación normal no debe intentar capturar.', example: '// La aplicación no debe capturar errores como este.', methods: {} },
+            'OutOfMemoryError': { inherits: 'java.lang.Error', implements: [], description: 'Un `Error` que ocurre cuando el Java Virtual Machine no puede asignar un objeto porque no hay suficiente memoria disponible.', example: '// ...', methods: {} },
+            'StackOverflowError': { inherits: 'java.lang.Error', implements: [], description: 'Un `Error` que ocurre cuando una aplicación recursiva se llama a sí misma demasiadas veces, desbordando la pila de llamadas.', example: '// ...', methods: {} },
+            'java.lang.Exception': {
+                inherits: 'java.lang.Throwable',
+                implements: [],
+                description: 'Una subclase de `Throwable` que indica condiciones que una aplicación puede querer capturar y manejar.',
+                example: `
+try {
+    int resultado = 10 / 0;
+} catch (Exception e) {
+    System.out.println("Ocurrió una excepción: " + e.getMessage());
+}
+// Salida: Ocurrió una excepción: / by zero
+                `,
+                methods: {
+                    'getMessage()': { description: 'Devuelve el mensaje de detalle de esta excepción.', example: '// ...' },
+                    'getCause()': { description: 'Devuelve la causa de esta excepción o `null` si la causa es inexistente o desconocida.', example: '// ...' }
+                }
+            },
+            'java.lang.RuntimeException': { inherits: 'java.lang.Exception', implements: [], description: 'Una subclase de `Exception` que no necesita ser declarada o capturada explícitamente.', example: '// ...', methods: {} },
+            'NullPointerException': { inherits: 'java.lang.RuntimeException', implements: [], description: 'Una `RuntimeException` que ocurre cuando una aplicación intenta usar una referencia a un objeto nulo.', example: '// ...', methods: {} },
+            'IllegalArgumentException': { inherits: 'java.lang.RuntimeException', implements: [], description: 'Una `RuntimeException` que se lanza para indicar que un método ha recibido un argumento ilegal o inapropiado.', example: '// ...', methods: {} },
+            'IndexOutOfBoundsException': { inherits: 'java.lang.RuntimeException', implements: [], description: 'Una `RuntimeException` que indica que un índice está fuera de rango.', example: '// ...', methods: {} },
+            'FileNotFoundException': { inherits: 'IOException', implements: [], description: 'Una excepción verificada que se lanza cuando se intenta acceder a un archivo que no existe.', example: '// ...', methods: {} },
+            'java.lang.Number': { inherits: 'java.lang.Object', implements: ['java.io.Serializable'], description: 'Una clase abstracta que es la superclase de todas las clases envoltorio numéricas.', example: '// ...', methods: {} },
+            'java.lang.Integer': { inherits: 'java.lang.Number', implements: ['java.lang.Comparable<Integer>'], description: 'Una clase envoltorio para el tipo primitivo `int`.', example: '// ...', methods: {} },
+            'java.lang.Double': { inherits: 'java.lang.Number', implements: ['java.lang.Comparable<Double>'], description: 'Una clase envoltorio para el tipo primitivo `double`.', example: '// ...', methods: {} },
+            'java.lang.Float': { inherits: 'java.lang.Number', implements: ['java.lang.Comparable<Float>'], description: 'Una clase envoltorio para el tipo primitivo `float`.', example: '// ...', methods: {} },
+            'java.lang.Long': { inherits: 'java.lang.Number', implements: ['java.lang.Comparable<Long>'], description: 'Una clase envoltorio para el tipo primitivo `long`.', example: '// ...', methods: {} },
+            'java.util.Collection': { inherits: null, implements: ['java.lang.Iterable'], description: 'La interfaz raíz del framework de colecciones.', example: '// ...', methods: {} },
+            'java.util.AbstractCollection': { inherits: 'java.lang.Object', implements: ['java.util.Collection'], description: 'Una implementación parcial de la interfaz `Collection`.', example: '// ...', methods: {} },
+            'java.util.AbstractList': { inherits: 'java.util.AbstractCollection', implements: ['java.util.List'], description: 'Una implementación parcial de la interfaz `List`.', example: '// ...', methods: {} },
+            'java.util.List': { inherits: null, implements: ['java.util.Collection'], description: 'Una interfaz que define una colección ordenada de elementos (también conocida como secuencia).', example: '// ...', methods: {} },
+            'java.util.ArrayList': {
+                inherits: 'java.util.AbstractList',
+                implements: ['java.util.List', 'java.util.RandomAccess'],
+                description: 'Una implementación de `List` que utiliza un array redimensionable para almacenar los elementos. Es eficiente para acceder a elementos por índice.',
+                example: `
+import java.util.ArrayList;
+ArrayList<String> nombres = new ArrayList<>();
+nombres.add("Ana");
+nombres.add("Juan");
+System.out.println(nombres.get(1));
+// Salida: Juan
+                `,
+                methods: {
+                    'add(E e)': {
+                        description: 'Añade el elemento especificado al final de este `ArrayList`.',
+                        example: `
+ArrayList<Integer> nums = new ArrayList<>();
+nums.add(10);
+nums.add(20);
+System.out.println(nums);
+// Salida: [10, 20]
+                        `
+                    }
+                }
+            },
+            'java.util.Vector': { inherits: 'java.util.AbstractList', implements: ['java.util.List'], description: 'Una implementación de `List` similar a `ArrayList`, pero está sincronizada.', example: '// ...', methods: {} },
+            'java.util.Stack': { inherits: 'java.util.Vector', implements: [], description: 'Una subclase de `Vector` que representa una pila.', example: '// ...', methods: {} },
+            'java.util.LinkedList': { inherits: 'java.util.AbstractSequentialList', implements: ['java.util.List', 'java.util.Deque'], description: 'Una implementación de `List` que utiliza una lista doblemente enlazada.', example: '// ...', methods: {} },
+            'java.util.Set': { inherits: null, implements: ['java.util.Collection'], description: 'Una interfaz que define una colección que no contiene elementos duplicados.', example: '// ...', methods: {} },
+            'java.util.AbstractSet': { inherits: 'java.util.AbstractCollection', implements: ['java.util.Set'], description: 'Una implementación parcial de la interfaz `Set`.', example: '// ...', methods: {} },
+            'java.util.HashSet': { inherits: 'java.util.AbstractSet', implements: ['java.util.Set', 'java.io.Serializable'], description: 'Una implementación de `Set` que utiliza una tabla hash.', example: '// ...', methods: {} },
+            'java.util.LinkedHashSet': { inherits: 'java.util.HashSet', implements: ['java.util.Set', 'java.io.Serializable'], description: 'Una implementación de `Set` que mantiene el orden de inserción de los elementos.', example: '// ...', methods: {} },
+            'java.util.Map': { inherits: null, implements: [], description: 'Una interfaz que asocia claves con valores. No es parte de la interfaz `Collection`.', example: '// ...', methods: {} },
+            'java.util.AbstractMap': { inherits: 'java.lang.Object', implements: ['java.util.Map'], description: 'Una implementación parcial de la interfaz `Map`.', example: '// ...', methods: {} },
+            'java.util.HashMap': { inherits: 'java.util.AbstractMap', implements: ['java.util.Map', 'java.io.Serializable'], description: 'Una implementación de `Map` que utiliza una tabla hash.', example: '// ...', methods: {} },
+            'java.util.LinkedHashMap': { inherits: 'java.util.HashMap', implements: ['java.util.Map'], description: 'Una implementación de `Map` que mantiene el orden de inserción de las claves.', example: '// ...', methods: {} },
+            'java.util.TreeMap': { inherits: 'java.util.AbstractMap', implements: ['java.util.NavigableMap'], description: 'Una implementación de `Map` que almacena sus claves en un árbol binario, manteniéndolas ordenadas.', example: '// ...', methods: {} },
+            'IOException': { inherits: 'java.lang.Exception', implements: [], description: 'Una excepción verificada que indica que una operación de entrada/salida ha fallado o ha sido interrumpida.', example: '// ...', methods: {} },
+            'java.io.Serializable': { inherits: null, implements: [], description: 'Una interfaz de marcador que indica que una clase puede ser serializada (convertida en una secuencia de bytes).', example: '// ...', methods: {} },
+            'java.lang.Runnable': {
+                inherits: null,
+                implements: [],
+                description: 'Una interfaz que define un método `run()` y se utiliza para crear hilos. Las clases que la implementan pueden ser ejecutadas por un `Thread`.',
+                example: `
+class Tarea implements Runnable {
+    public void run() {
+        System.out.println("El hilo está en ejecución.");
+    }
+}
+Thread hilo = new Thread(new Tarea());
+hilo.start();
+// Salida: El hilo está en ejecución.
+                `,
+                methods: {
+                    'run()': {
+                        description: 'El método principal de esta interfaz. Contiene el código que debe ejecutar el hilo de forma concurrente.',
+                        example: `
+// Implementación del método run() en la clase Tarea de arriba
+@Override
+public void run() {
+    System.out.println("El código del hilo se ejecuta aquí.");
+}
+// Salida: El código del hilo se ejecuta aquí.
+                        `
+                    }
+                }
+            },
+            'java.lang.Thread': { inherits: 'java.lang.Object', implements: ['java.lang.Runnable'], description: 'Una clase que representa un hilo de ejecución.', example: '// ...', methods: {} },
+            'java.io.InputStream': { inherits: 'java.lang.Object', implements: ['java.io.Closeable'], description: 'Una clase abstracta que representa un flujo de entrada de bytes.', example: '// ...', methods: {} },
+            'java.io.FileInputStream': { inherits: 'java.io.InputStream', implements: [], description: 'Una clase que crea un `InputStream` que lee bytes de un archivo.', example: '// ...', methods: {} },
+            'java.io.BufferedInputStream': { inherits: 'java.io.FilterInputStream', implements: [], description: 'Una clase decoradora que añade funcionalidad de búfer a otro `InputStream`.', example: '// ...', methods: {} },
+            'java.io.OutputStream': { inherits: 'java.lang.Object', implements: ['java.io.Closeable', 'java.io.Flushable'], description: 'Una clase abstracta que representa un flujo de salida de bytes.', example: '// ...', methods: {} },
+            'java.io.FileOutputStream': { inherits: 'java.io.OutputStream', implements: [], description: 'Una clase que crea un `OutputStream` que escribe bytes en un archivo.', example: '// ...', methods: {} },
+            'java.io.Reader': { inherits: 'java.lang.Object', implements: ['java.lang.Readable', 'java.io.Closeable'], description: 'Una clase abstracta que representa un flujo de entrada de caracteres.', example: '// ...', methods: {} },
+            'java.io.FileReader': { inherits: 'java.io.InputStreamReader', implements: [], description: 'Una clase que crea un `Reader` para leer caracteres de un archivo.', example: '// ...', methods: {} },
+            'java.io.BufferedReader': { inherits: 'java.io.Reader', implements: [], description: 'Una clase decoradora que añade funcionalidad de búfer a otro `Reader`.', example: '// ...', methods: {} },
+            'java.io.Writer': { inherits: 'java.lang.Object', implements: ['java.lang.Appendable', 'java.io.Closeable', 'java.io.Flushable'], description: 'Una clase abstracta que representa un flujo de salida de caracteres.', example: '// ...', methods: {} },
+            'java.io.FileWriter': { inherits: 'java.io.OutputStreamWriter', implements: [], description: 'Una clase que crea un `Writer` para escribir caracteres en un archivo.', example: '// ...', methods: {} },
+            'java.io.PrintWriter': { inherits: 'java.io.Writer', implements: [], description: 'Una clase que envuelve a otro `Writer` para proporcionar funcionalidades de impresión formateada.', example: '// ...', methods: {} },
+        };
+
+        const getInheritancePath = (className) => {
+            let path = [];
+            let current = className;
+            while (current && classExplanations[current] && current !== 'java.lang.Object') {
+                path.unshift(current);
+                current = classExplanations[current].inherits;
+            }
+            if (current === 'java.lang.Object') {
+                path.unshift(current);
+            }
+            return path;
+        };
+
+        const showModal = (className) => {
+            currentClass = className;
+            const info = classExplanations[className];
+
+            modalTitle.textContent = className;
+            
+            // Handle Inheritance Path
+            const inheritancePath = getInheritancePath(className);
+            if (inheritancePath.length > 1) {
+                modalInheritance.innerHTML = `**Hereda:** <div class="inheritance-path">${inheritancePath.join(' <span class="text-gray-400">&gt;</span> ')}</div>`;
+                modalInheritance.classList.remove('hidden');
+            } else {
+                modalInheritance.classList.add('hidden');
+            }
+
+            // Handle Implemented Interfaces
+            if (info.implements && info.implements.length > 0) {
+                modalImplements.innerHTML = `**Implementa:** ${info.implements.join(', ')}`;
+                modalImplements.classList.remove('hidden');
+            } else {
+                modalImplements.classList.add('hidden');
+            }
+
+            modalBody.textContent = info.description;
+            modalCode.innerHTML = info.example ? `<pre><code class="language-java">${info.example.trim()}</code></pre>` : '';
+            
+            // Populate method list
+            methodList.innerHTML = '';
+            const methods = info.methods || {};
+            const methodKeys = Object.keys(methods);
+            if (methodKeys.length > 0) {
+                document.getElementById('methodsTitle').style.display = 'block';
+                methodKeys.forEach(methodName => {
+                    const li = document.createElement('li');
+                    li.textContent = methodName;
+                    li.className = 'method-list-item';
+                    li.setAttribute('data-method', methodName);
+                    methodList.appendChild(li);
+                });
+            } else {
+                document.getElementById('methodsTitle').style.display = 'none';
+            }
+
+            // Show main class content and hide method content
+            classContent.classList.remove('hidden');
+            methodContent.classList.add('hidden');
+            backButton.style.display = 'none';
+            infoModal.style.display = 'flex';
+        };
+
+        const showMethodDetails = (methodName) => {
+            const info = classExplanations[currentClass];
+            const methodInfo = info.methods[methodName];
+
+            methodTitle.textContent = methodName;
+            methodDescription.textContent = methodInfo.description;
+            methodExample.innerHTML = methodInfo.example ? `<pre><code class="language-java">${methodInfo.example.trim()}</code></pre>` : '';
+            
+            // Hide class content and show method content
+            classContent.classList.add('hidden');
+            methodContent.classList.remove('hidden');
+            backButton.style.display = 'block';
+        };
+
+        const hideModal = () => {
+            infoModal.style.display = 'none';
+        };
+
+        document.querySelector('.hierarchy-container').addEventListener('click', (event) => {
+            const targetNode = event.target.closest('.item');
+            if (targetNode) {
+                const className = targetNode.getAttribute('data-class');
+                if (classExplanations[className]) {
+                    showModal(className);
+                } else {
+                    alert('No hay información detallada disponible para esta clase.');
+                }
+            }
+        });
+
+        methodList.addEventListener('click', (event) => {
+            const targetMethod = event.target.closest('.method-list-item');
+            if (targetMethod) {
+                const methodName = targetMethod.getAttribute('data-method');
+                showMethodDetails(methodName);
+            }
+        });
+        
+        backButton.addEventListener('click', () => {
+            showModal(currentClass);
+        });
+
+        closeModalButton.addEventListener('click', hideModal);
+
+        infoModal.addEventListener('click', (event) => {
+            if (event.target === infoModal) {
+                hideModal();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: List vs. Map vs. Set en Java</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F0F4F8;
+            color: #102A43;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .flow-arrow {
+            font-size: 2rem;
+            color: #334E68;
+            line-height: 1;
+        }
+        .code-button {
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            cursor: pointer;
+        }
+        /* Efecto de hover más pronunciado */
+        .code-button:hover {
+            background-color: #CBD5E1; /* Color más contrastado */
+            transform: translateY(-4px); /* Levantamiento más exagerado */
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Sombra más grande y oscura */
+        }
+        .code-button.active {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transform: translateY(2px);
+            background-color: #247BA0;
+            color: white;
+        }
+        .code-button.active:hover {
+            background-color: #247BA0; /* Mantener el color activo al pasar el ratón */
+            transform: translateY(2px); /* Mantener la posición activa */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Mantener la sombra activa */
+        }
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: #334E68;
+            color: white;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out;
+            cursor: pointer;
+            border: none;
+            font-size: 0.875rem;
+        }
+        .copy-btn:hover {
+            background-color: #102A43;
+        }
+        /* Nueva clase para el contenedor de código, para evitar la superposición */
+        .code-container-with-button {
+            position: relative;
+            padding: 1rem; /* p-4 de Tailwind es 1rem */
+            padding-top: 3.5rem; /* Aumento del padding superior para el botón de copiar */
+            background-color: #102A43;
+            color: white;
+            border-radius: 0.5rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#102A43] mb-2">List vs. Map vs. Set en Java</h1>
+            <p class="text-lg text-[#334E68]">Una guía visual para elegir la colección correcta.</p>
+        </header>
+
+        <main class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center">
+                <h2 class="text-3xl font-bold text-[#247BA0] mb-4">List 📝</h2>
+                <p class="text-[#334E68] mb-6">Una colección de elementos que mantiene un <strong>orden de inserción</strong>. Se accede a los elementos por su posición, o <strong>índice</strong>.</p>
+                <div class="w-full bg-[#F0F4F8] rounded-lg p-4 text-left">
+                    <h3 class="font-semibold mb-2">Ejemplo de Estructura:</h3>
+                    <ul class="list-none space-y-2">
+                        <li class="bg-white p-2 rounded shadow-sm">Índice 0: "Manzana" 🍎</li>
+                        <li class="bg-white p-2 rounded shadow-sm">Índice 1: "Banana" 🍌</li>
+                        <li class="bg-white p-2 rounded shadow-sm">Índice 2: "Fresa" 🍓</li>
+                    </ul>
+                </div>
+                <div class="mt-6 text-center">
+                    <span class="flow-arrow">&#8595;</span>
+                </div>
+                <div class="w-full mt-2 bg-[#F0F4F8] text-[#102A43] p-4 rounded-lg text-left">
+                    <h4 class="font-bold text-[#102A43] text-lg mb-2">Iterar con un bucle for-each</h4>
+                    <p class="text-sm text-[#334E68] mb-2">Este método es el más común y fácil de leer para recorrer todos los elementos de una lista.</p>
+                    <div class="code-container-with-button">
+                        <pre class="overflow-x-auto"><code class="language-java">List<String> frutas = new ArrayList<>();
+frutas.add("Manzana");
+frutas.add("Banana");
+frutas.add("Fresa");
+
+// Iteración usando un bucle for-each
+for (String fruta : frutas) {
+    System.out.println(fruta);
+}
+// Salida: Manzana, Banana, Fresa</code></pre>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar Código</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center">
+                <h2 class="text-3xl font-bold text-[#247BA0] mb-4">Map 🔑</h2>
+                <p class="text-[#334E68] mb-6">Una colección de pares <strong>clave-valor</strong>. La clave es única y se usa para buscar el valor de forma eficiente.</p>
+                <div class="w-full bg-[#F0F4F8] rounded-lg p-4 text-left">
+                    <h3 class="font-semibold mb-2">Ejemplo de Estructura:</h3>
+                    <dl class="space-y-2">
+                        <div class="bg-white p-2 rounded shadow-sm flex items-center justify-center space-x-2">
+                            <dt class="font-bold text-indigo-600">"Ana":</dt>
+                            <dd class="ml-2">30</dd>
+                        </div>
+                        <div class="bg-white p-2 rounded shadow-sm flex items-center justify-center space-x-2">
+                            <dt class="font-bold text-indigo-600">"Juan":</dt>
+                            <dd class="ml-2">25</dd>
+                        </div>
+                        <div class="bg-white p-2 rounded shadow-sm flex items-center justify-center space-x-2">
+                            <dt class="font-bold text-indigo-600">"Pedro":</dt>
+                            <dd class="ml-2">45</dd>
+                        </div>
+                    </dl>
+                </div>
+                <div class="mt-6 text-center">
+                    <span class="flow-arrow">&#8595;</span>
+                </div>
+                
+                <div class="w-full mt-2 bg-[#F0F4F8] text-[#102A43] p-4 rounded-lg text-left space-y-4">
+                    <h4 class="font-bold text-[#102A43] text-lg mb-2">Opciones de Iteración</h4>
+                    <div class="flex flex-col space-y-2 mb-4">
+                        <button class="code-button bg-gray-200 text-[#102A43] px-4 py-2 rounded-lg font-semibold active" onclick="showMapCode('map-code-keySet')">Iterar sobre Claves</button>
+                        <button class="code-button bg-gray-200 text-[#102A43] px-4 py-2 rounded-lg font-semibold" onclick="showMapCode('map-code-values')">Iterar sobre Valores</button>
+                        <button class="code-button bg-gray-200 text-[#102A43] px-4 py-2 rounded-lg font-semibold" onclick="showMapCode('map-code-entrySet')">Iterar sobre Pares</button>
+                    </div>
+
+                    <div id="map-code-keySet" style="display: block;">
+                        <p class="text-sm text-[#334E68] mb-2">Obtiene un conjunto con todas las claves del mapa. Útil cuando solo necesitas acceder a las claves, por ejemplo, para imprimir los nombres de los usuarios.</p>
+                        <div class="code-container-with-button">
+                            <pre class="overflow-x-auto"><code class="language-java">Map<String, Integer> edades = new HashMap<>();
+edades.put("Ana", 30);
+edades.put("Juan", 25);
+edades.put("Pedro", 45);
+
+// El método keySet() devuelve un Set de las claves.
+Set<String> nombres = edades.keySet(); 
+
+for (String nombre : nombres) {
+    System.out.println(nombre);
+}
+// Salida: Ana, Juan, Pedro</code></pre>
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar Código</button>
+                        </div>
+                    </div>
+                    
+                    <div id="map-code-values" style="display: none;">
+                        <p class="text-sm text-[#334E68] mb-2">Obtiene una colección con todos los valores del mapa. Útil cuando solo necesitas trabajar con los valores, por ejemplo, para calcular el promedio de edad.</p>
+                        <div class="code-container-with-button">
+                            <pre class="overflow-x-auto"><code class="language-java">Map<String, Integer> edades = new HashMap<>();
+edades.put("Ana", 30);
+edades.put("Juan", 25);
+edades.put("Pedro", 45);
+
+// El método values() devuelve una Collection de los valores.
+Collection<Integer> todasLasEdades = edades.values();
+
+for (Integer edad : todasLasEdades) {
+    System.out.println(edad);
+}
+// Salida: 30, 25, 45</code></pre>
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar Código</button>
+                        </div>
+                    </div>
+
+                    <div id="map-code-entrySet" style="display: none;">
+                        <p class="text-sm text-[#334E68] mb-2">Obtiene un conjunto de objetos `Map.Entry` que representan cada par clave-valor. Es el método más eficiente si necesitas acceder tanto a la clave como al valor en cada iteración.</p>
+                        <div class="code-container-with-button">
+                            <pre class="overflow-x-auto"><code class="language-java">Map<String, Integer> edades = new HashMap<>();
+edades.put("Ana", 30);
+edades.put("Juan", 25);
+edades.put("Pedro", 45);
+
+// El método entrySet() devuelve un Set de pares Map.Entry.
+Set<Map.Entry<String, Integer>> paresClaveValor = edades.entrySet();
+
+for (Map.Entry<String, Integer> par : paresClaveValor) {
+    String nombre = par.getKey();
+    Integer edad = par.getValue();
+    System.out.println(nombre + " tiene " + edad + " años.");
+}
+// Salida: Ana tiene 30 años., Juan tiene 25 años., Pedro tiene 45 años.</code></pre>
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar Código</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center">
+                <h2 class="text-3xl font-bold text-[#247BA0] mb-4">Set 🧩</h2>
+                <p class="text-[#334E68] mb-6">Una colección de elementos únicos. No mantiene un <strong>orden de inserción</strong> y no permite duplicados. Útil para eliminar elementos repetidos.</p>
+                <div class="w-full bg-[#F0F4F8] rounded-lg p-4 text-left">
+                    <h3 class="font-semibold mb-2">Ejemplo de Estructura:</h3>
+                    <ul class="list-none space-y-2">
+                        <li class="bg-white p-2 rounded shadow-sm">"Manzana" 🍎</li>
+                        <li class="bg-white p-2 rounded shadow-sm">"Banana" 🍌</li>
+                        <li class="bg-white p-2 rounded shadow-sm">"Fresa" 🍓</li>
+                    </ul>
+                </div>
+                <div class="mt-6 text-center">
+                    <span class="flow-arrow">&#8595;</span>
+                </div>
+                <div class="w-full mt-2 bg-[#F0F4F8] text-[#102A43] p-4 rounded-lg text-left">
+                    <h4 class="font-bold text-[#102A43] text-lg mb-2">Iterar con un bucle for-each</h4>
+                    <p class="text-sm text-[#334E68] mb-2">Este método es el más común y fácil de leer para recorrer todos los elementos de un conjunto.</p>
+                    <div class="code-container-with-button">
+                        <pre class="overflow-x-auto"><code class="language-java">Set<String> frutasUnicas = new HashSet<>();
+frutasUnicas.add("Manzana");
+frutasUnicas.add("Manzana"); // Se ignora
+frutasUnicas.add("Banana");
+frutasUnicas.add("Fresa");
+
+// Iteración usando un bucle for-each
+for (String fruta : frutasUnicas) {
+    System.out.println(fruta);
+}
+// Salida: Manzana, Banana, Fresa (orden no garantizado)</code></pre>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar Código</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:col-span-3 bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-center mb-6">Comparación de Características</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr>
+                                <th class="p-3 font-bold uppercase bg-[#F0F4F8] text-sm text-[#334E68] border border-gray-300">Característica</th>
+                                <th class="p-3 font-bold uppercase bg-[#F0F4F8] text-sm text-[#334E68] border border-gray-300 text-center">List</th>
+                                <th class="p-3 font-bold uppercase bg-[#F0F4F8] text-sm text-[#334E68] border border-gray-300 text-center">Map</th>
+                                <th class="p-3 font-bold uppercase bg-[#F0F4F8] text-sm text-[#334E68] border border-gray-300 text-center">Set</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="hover:bg-gray-100">
+                                <td class="p-3 text-[#102A43] border border-gray-200">Estructura</td>
+                                <td class="p-3 text-[#102A43] border border-gray-200 text-center">Elementos ordenados</td>
+                                <td class="p-3 text-[#102A43] border border-gray-200 text-center">Pares clave-valor</td>
+                                <td class="p-3 text-[#102A43] border border-gray-200 text-center">Elementos únicos</td>
+                            </tr>
+                            <tr class="hover:bg-gray-100">
+                                <td class="p-3 text-[#102A43] border border-gray-200">Acceso</td>
+                                <td class="p-3 text-[#102A43] border border-gray-200 text-center">Por índice numérico</td>
+                                <td class="p-3 text-[#102A43] border border-gray-200 text-center">Por clave única</td>
+                                <td class="p-3 text-[#102A43] border border-gray-200 text-center">No tiene acceso por índice</td>
+                            </tr>
+                            <tr class="hover:bg-gray-100">
+                                <td class="p-3 text-[#102A43] border border-gray-200">Duplicados</td>
+                                <td class="p-3 text-[#102A43] border border-gray-200 text-center">Permite elementos duplicados</td>
+                                <td class="p-3 text-[#102A43] border border-gray-200 text-center">No permite claves duplicadas</td>
+                                <td class="p-3 text-[#102A43] border border-gray-200 text-center">No permite elementos duplicados</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="md:col-span-3 bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-center mb-6">Rendimiento de Acceso Típico</h2>
+                <p class="text-center text-[#334E68] mb-4">El acceso por índice es muy rápido en `ArrayList` (`O(1)`), pero más lento en `LinkedList` (`O(n)`). La búsqueda de un elemento sin su índice es lenta en ambas. Un `Map` y `Set` ofrecen un acceso muy rápido (`O(1)`) a sus elementos, el primero por clave y el segundo para verificar la existencia del elemento (`contains`).</p>
+                <div class="chart-container">
+                    <canvas id="performanceChart"></canvas>
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
+    <script>
+        const ctx = document.getElementById('performanceChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Acceso en ArrayList (por índice)', 'Acceso en LinkedList (por índice)', 'Búsqueda en List (sin índice)', 'Acceso en Map (por clave)', 'Acceso en Set (contains)'],
+                datasets: [{
+                    label: 'Tiempo de Operación (relativo)',
+                    data: [10, 45, 85, 12, 15],
+                    backgroundColor: [
+                        '#5CB85C',
+                        '#62A8D1',
+                        '#D9534F',
+                        '#F0AD4E',
+                        '#946AA8'
+                    ],
+                    borderColor: [
+                        '#4CAE4C',
+                        '#4391C1',
+                        '#A94442',
+                        '#EC971F',
+                        '#7D588D'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Tiempo Relativo (menor es mejor)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Comparación de Velocidad de Acceso',
+                        font: {
+                            size: 16
+                        }
+                    }
+                }
+            }
+        });
+
+        // JavaScript para los botones de la sección Map
+        function showMapCode(codeId) {
+            const sections = ['map-code-keySet', 'map-code-values', 'map-code-entrySet'];
+            const buttons = document.querySelectorAll('.code-button');
+
+            // Ocultar todas las secciones y quitar la clase 'active' de todos los botones
+            sections.forEach(id => {
+                document.getElementById(id).style.display = 'none';
+            });
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Mostrar la sección seleccionada y añadir la clase 'active' al botón correspondiente
+            document.getElementById(codeId).style.display = 'block';
+            document.querySelector(`[onclick="showMapCode('${codeId}')"]`).classList.add('active');
+        }
+
+        // Función para copiar el código
+        function copyCode(button) {
+            const codeBlock = button.previousElementSibling.querySelector('code');
+            const codeToCopy = codeBlock.innerText;
+
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    button.textContent = '¡Copiado!';
+                    button.style.backgroundColor = '#5CB85C';
+                    setTimeout(() => {
+                        button.textContent = 'Copiar Código';
+                        button.style.backgroundColor = '#334E68';
+                    }, 2000);
+                } else {
+                    console.error('La copia al portapapeles falló.');
+                }
+            } catch (err) {
+                console.error('La copia al portapapeles falló:', err);
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
+    </script>
+</body>
+</html>
