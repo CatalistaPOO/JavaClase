@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: Convenciones de Nomenclatura en Java</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F0F4F8;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .flowchart-step {
+            position: relative;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            font-weight: bold;
+            color: white;
+        }
+        .flowchart-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00A6A6;
+            margin: 0.5rem 0;
+        }
+        @media (min-width: 768px) {
+            .flowchart-arrow {
+                margin: 0 1rem;
+            }
+        }
+        .code-container {
+            position: relative;
+            background-color: #f8f9fa;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .code-container code {
+            flex-grow: 1;
+            white-space: nowrap;
+            overflow-x: auto;
+            padding-right: 1rem;
+        }
+        .copy-button {
+            background-color: #cbd5e1;
+            border: none;
+            border-radius: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        .copy-button:hover {
+            background-color: #94a3b8;
+        }
+        .full-code-container {
+            position: relative;
+            background-color: #2d3748;
+            color: #fff;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        .full-code-container code {
+            display: block;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-x: auto;
+            padding-right: 2rem;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="bg-white shadow-md p-6 text-center">
+        <h1 class="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#00A6A6] to-[#F28705]">Convenciones de Nomenclatura en Java</h1>
+        <p class="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">Una guía visual para escribir código limpio, legible y profesional, siguiendo las mejores prácticas.</p>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+            <div class="md:col-span-2 bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-3xl font-bold text-[#00A6A6] mb-2">Clases e Interfaces: `PascalCase`</h2>
+                <p class="mb-4 text-gray-600">Los nombres de clases e interfaces deben ser sustantivos que comiencen con una letra mayúscula y sigan la convención PascalCase. Esto distingue claramente las plantillas de los objetos de las variables y los métodos, mejorando la legibilidad del código.
+                    <br><br>
+                    **Ejemplos:**
+                    <div class="code-container"><code>class Coche { ... }</code><button class="copy-button">Copiar</button></div>
+                    <div class="code-container"><code>class DireccionDeEnvio { ... }</code><button class="copy-button">Copiar</button></div>
+                    <div class="code-container"><code>interface InterfazComparable { ... }</code><button class="copy-button">Copiar</button></div>
+                    <div class="code-container"><code>abstract class GestorDeConexionAbstracto { ... }</code><button class="copy-button">Copiar</button></div>
+                </p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-3xl font-bold text-[#E2A0FF] mb-2">Métodos y Variables: `camelCase`</h2>
+                <p class="mb-4 text-gray-600">Los métodos (verbos) y las variables (sustantivos) utilizan camelCase. Esta convención es fundamental para la mantenibilidad del código, ya que facilita la identificación de la función de cada elemento.
+                    <br><br>
+                    **Ejemplos de Métodos:**
+                    <div class="code-container"><code>public void calcularTotal() { ... }</code><button class="copy-button">Copiar</button></div>
+                    <div class="code-container"><code>public String obtenerNombreCompleto() { ... }</code><button class="copy-button">Copiar</button></div>
+                    <div class="code-container"><code>public void establecerEdad(int edad) { ... }</code><button class="copy-button">Copiar</button></div>
+                    <br>
+                    **Ejemplos de Variables:**
+                    <div class="code-container"><code>int edad = 30;</code><button class="copy-button">Copiar</button></div>
+                    <div class="code-container"><code>String nombreUsuario = "Juan";</code><button class="copy-button">Copiar</button></div>
+                    <div class="code-container"><code>boolean estaActivo = true;</code><button class="copy-button">Copiar</button></div>
+                </p>
+                <div class="chart-container">
+                    <canvas id="methodChart"></canvas>
+                </div>
+                 <p class="mt-4 text-center text-sm text-gray-500">La aplicación de camelCase, junto con nombres descriptivos, es un pilar de la claridad del código.</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-3xl font-bold text-[#F26B83] mb-2">Constantes: `SCREAMING_SNAKE_CASE`</h2>
+                <p class="mb-4 text-gray-600">Las constantes, declaradas como `public static final`, utilizan mayúsculas y guiones bajos. Esto las hace destacar visualmente, indicando que su valor es inmutable y está disponible globalmente a través de la clase.
+                    <br><br>
+                    **Ejemplos:**
+                    <div class="code-container"><code>public static final double TASA_IMPUESTO = 0.21;</code><button class="copy-button">Copiar</button></div>
+                    <div class="code-container"><code>public static final int MAXIMO_INTENTOS = 5;</code><button class="copy-button">Copiar</button></div>
+                    <div class="code-container"><code>public static final String RUTA_ARCHIVO = "/home/data.txt";</code><button class="copy-button">Copiar</button></div>
+                </p>
+                <div class="chart-container">
+                    <canvas id="constantChart"></canvas>
+                </div>
+                <p class="mt-4 text-center text-sm text-gray-500">Una constante bien declarada combina visibilidad, estado estático, inmutabilidad y una convención de nomenclatura clara.</p>
+            </div>
+
+            <div class="md:col-span-2 bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-3xl font-bold text-[#F2B705] mb-2">Paquetes: `minúsculas`</h2>
+                <p class="mb-4 text-gray-600">Los nombres de los paquetes se escriben completamente en minúsculas para evitar conflictos en sistemas de archivos. La convención más común es usar el nombre de dominio de la organización invertido.
+                    <br><br>
+                    **Ejemplos:**
+                    <div class="code-container"><code>package com.google.android.gms;</code><button class="copy-button">Copiar</button></div>
+                    <div class="code-container"><code>package org.apache.commons.lang3;</code><button class="copy-button">Copiar</button></div>
+                    <div class="code-container"><code>package com.miempresa.aplicacion.modelo.datos;</code><button class="copy-button">Copiar</button></div>
+                </p>
+                <div class="flex flex-col md:flex-row items-center justify-center p-4">
+                    <div class="flowchart-step bg-[#F2B705]">miempresa.com</div>
+                    <div class="flowchart-arrow transform md:rotate-0 rotate-90">&rarr;</div>
+                    <div class="flowchart-step bg-[#F28705]">com.miempresa</div>
+                    <div class="flowchart-arrow transform md:rotate-0 rotate-90">&rarr;</div>
+                    <div class="flowchart-step bg-[#00A6A6]">com.miempresa.utilidades</div>
+                </div>
+                 <p class="mt-4 text-center text-sm text-gray-500">Este diagrama de flujo muestra cómo un nombre de dominio se transforma en una estructura de paquetes estándar de Java.</p>
+            </div>
+
+            <div class="md:col-span-2 bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-3xl font-bold text-[#F28705] mb-2">Tipos Genéricos</h2>
+                <p class="mb-4 text-gray-600">Para los tipos genéricos, se usan letras mayúsculas de una sola letra para mantener el código conciso. La convención ayuda a entender rápidamente el propósito del tipo genérico en su contexto.
+                    <br><br>
+                    **Ejemplos:**
+                    <div class="code-container"><code>class Caja&lt;T&gt; { T contenido; }</code><button class="copy-button">Copiar</button></div>
+                    <div class="code-container"><code>interface List&lt;E&gt; { void agregar(E elemento); }</code><button class="copy-button">Copiar</button></div>
+                    <div class="code-container"><code>interface Map&lt;K, V&gt; { ... }</code><button class="copy-button">Copiar</button></div>
+                </p>
+                <div class="chart-container">
+                    <canvas id="genericsChart"></canvas>
+                </div>
+                <p class="mt-4 text-center text-sm text-gray-500">Los tipos genéricos como T, E, K y V son clave para un código conciso y seguro en Java.</p>
+            </div>
+
+            <div class="md:col-span-2 bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-3xl font-bold text-[#F26B83] mb-2">Ejemplo de Código Completo</h2>
+                <p class="mb-4 text-gray-600">Este ejemplo de código integra todas las convenciones de nomenclatura en un solo programa, incluyendo paquetes, clases, variables, métodos, constantes y genéricos. Puedes copiarlo y ejecutarlo para ver las convenciones en acción.</p>
+                <div class="full-code-container">
+                    <pre><code id="full-code-block">
+<span style="color:#F2B705;">package com.miempresa.concesionario</span>;
+
+import java.util.ArrayList;
+import java.util.List;
+
+<span style="color:#94a3b8;">// Clase (<span style="color:#00A6A6;">PascalCase</span>) que representa un vehículo</span>
+class <span style="color:#00A6A6;">Coche</span> {
+    <span style="color:#94a3b8;">// Constante (<span style="color:#F26B83;">SCREAMING_SNAKE_CASE</span>)</span>
+    public static final String <span style="color:#F26B83;">TIPO_COMBUSTIBLE_DEFAULT</span> = "Gasolina";
+
+    <span style="color:#94a3b8;">// Variables de instancia (<span style="color:#E2A0FF;">camelCase</span>)</span>
+    private String <span style="color:#E2A0FF;">marca</span>;
+    private String <span style="color:#E2A0FF;">modelo</span>;
+    private int <span style="color:#E2A0FF;">anoDeFabricacion</span>;
+
+    <span style="color:#94a3b8;">// Constructor (<span style="color:#00A6A6;">PascalCase</span> para la clase)</span>
+    public <span style="color:#00A6A6;">Coche</span>(String <span style="color:#E2A0FF;">marca</span>, String <span style="color:#E2A0FF;">modelo</span>, int <span style="color:#E2A0FF;">anoDeFabricacion</span>) {
+        this.marca = <span style="color:#E2A0FF;">marca</span>;
+        this.modelo = <span style="color:#E2A0FF;">modelo</span>;
+        this.anoDeFabricacion = <span style="color:#E2A0FF;">anoDeFabricacion</span>;
+    }
+
+    <span style="color:#94a3b8;">// Métodos (<span style="color:#E2A0FF;">camelCase</span>)</span>
+    public void <span style="color:#E2A0FF;">mostrarInformacion</span>() {
+        System.out.println("Coche: " + <span style="color:#E2A0FF;">marca</span> + " " + <span style="color:#E2A0FF;">modelo</span> + " del año " + <span style="color:#E2A0FF;">anoDeFabricacion</span>);
+    }
+
+    public String <span style="color:#E2A0FF;">obtenerMarca</span>() {
+        return this.<span style="color:#E2A0FF;">marca</span>;
+    }
+}
+
+<span style="color:#94a3b8;">// Clase principal que usa las otras clases</span>
+public class <span style="color:#00A6A6;">Concesionario</span> {
+
+    public static void <span style="color:#E2A0FF;">main</span>(String[] args) {
+        <span style="color:#94a3b8;">// Uso de clases y objetos</span>
+        <span style="color:#00A6A6;">Coche</span> <span style="color:#E2A0FF;">miCoche</span> = new <span style="color:#00A6A6;">Coche</span>("Toyota", "Corolla", 2022);
+        <span style="color:#E2A0FF;">miCoche</span>.mostrarInformacion();
+
+        <span style="color:#94a3b8;">// Uso de constantes</span>
+        System.out.println("El tipo de combustible por defecto es: " + <span style="color:#00A6A6;">Coche</span>.<span style="color:#F26B83;">TIPO_COMBUSTIBLE_DEFAULT</span>);
+
+        <span style="color:#94a3b8;">// Uso de variables y métodos</span>
+        String <span style="color:#E2A0FF;">marcaDelCoche</span> = <span style="color:#E2A0FF;">miCoche</span>.<span style="color:#E2A0FF;">obtenerMarca</span>();
+        System.out.println("La marca del coche es: " + <span style="color:#E2A0FF;">marcaDelCoche</span>);
+
+        <span style="color:#94a3b8;">// Uso de tipos genéricos (<span style="color:#F28705;">List<E></span>)</span>
+        List<span style="color:#F28705;">&lt;<span style="color:#00A6A6;">Coche</span>&gt;</span> <span style="color:#E2A0FF;">inventario</span> = new ArrayList<span style="color:#F28705;">&lt;&gt;</span>();
+        <span style="color:#E2A0FF;">inventario</span>.add(<span style="color:#E2A0FF;">miCoche</span>);
+        <span style="color:#E2A0FF;">inventario</span>.add(new <span style="color:#00A6A6;">Coche</span>("Honda", "Civic", 2023));
+
+        System.out.println("\nInventario de coches:");
+        for (<span style="color:#00A6A6;">Coche</span> <span style="color:#E2A0FF;">coche</span> : <span style="color:#E2A0FF;">inventario</span>) {
+            <span style="color:#E2A0FF;">coche</span>.mostrarInformacion();
+        }
+    }
+}
+</code></pre>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="text-center p-6 mt-8">
+        <p class="text-gray-500">&copy; 2025 Guía Visual de Java. Todos los derechos reservados.</p>
+    </footer>
+
+<script>
+    function copyToClipboard(button, text) {
+        const originalText = button.textContent;
+        try {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            button.textContent = '¡Copiado!';
+        } catch (err) {
+            console.error('Error al copiar: ', err);
+            button.textContent = 'Error';
+        }
+        setTimeout(() => {
+            button.textContent = originalText;
+        }, 2000);
+    }
+
+    document.querySelectorAll('.copy-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const codeElement = button.previousElementSibling;
+            if (codeElement && codeElement.tagName === 'CODE') {
+                copyToClipboard(button, codeElement.textContent);
+            }
+        });
+    });
+
+    function wrapLabel(str) {
+        const maxLength = 16;
+        if (typeof str !== 'string' || str.length <= maxLength) {
+            return str;
+        }
+        const words = str.split(' ');
+        const lines = [];
+        let currentLine = '';
+        for (const word of words) {
+            if ((currentLine + word).length > maxLength) {
+                lines.push(currentLine.trim());
+                currentLine = '';
+            }
+            currentLine += word + ' ';
+        }
+        lines.push(currentLine.trim());
+        return lines.filter(line => line.length > 0);
+    }
+
+    const tooltipTitleCallback = (tooltipItems) => {
+        const item = tooltipItems[0];
+        let label = item.chart.data.labels[item.dataIndex];
+        return Array.isArray(label) ? label.join(' ') : label;
+    };
+    
+    const commonChartOptions = {
+        maintainAspectRatio: false,
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+                 labels: {
+                    font: {
+                        size: 14,
+                        family: 'Inter'
+                    }
+                }
+            },
+            tooltip: {
+                callbacks: {
+                    title: tooltipTitleCallback
+                },
+                bodyFont: {
+                    size: 14,
+                    family: 'Inter'
+                },
+                titleFont: {
+                    size: 16,
+                    family: 'Inter'
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                     font: {
+                        size: 12,
+                        family: 'Inter'
+                    }
+                }
+            },
+            x: {
+                 ticks: {
+                     font: {
+                        size: 12,
+                        family: 'Inter'
+                    }
+                }
+            }
+        }
+    };
+
+    const methodChartCtx = document.getElementById('methodChart').getContext('2d');
+    new Chart(methodChartCtx, {
+        type: 'polarArea',
+        data: {
+            labels: ['Descriptivo', 'Verbo/Sustantivo', 'camelCase', 'Conciso'],
+            datasets: [{
+                label: 'Atributos de Nombres',
+                data: [90, 85, 95, 80],
+                backgroundColor: ['#E2A0FF', '#F26B83', '#00A6A6', '#F28705'],
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        font: {
+                            size: 14,
+                            family: 'Inter'
+                        }
+                    }
+                },
+                tooltip: {
+                     callbacks: {
+                        title: tooltipTitleCallback
+                    }
+                }
+            },
+            scales: {
+                r: {
+                    pointLabels: {
+                        display: true,
+                        centerPointLabels: true,
+                        font: {
+                            size: 12,
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    const constantChartCtx = document.getElementById('constantChart').getContext('2d');
+    new Chart(constantChartCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['public', 'static', 'final', 'SCREAMING_SNAKE_CASE'],
+            datasets: [{
+                label: 'Componentes de una Constante',
+                data: [25, 25, 25, 25],
+                backgroundColor: ['#F26B83', '#F2B705', '#F28705', '#00A6A6'],
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                     labels: {
+                        font: {
+                            size: 14,
+                            family: 'Inter'
+                        }
+                    }
+                },
+                tooltip: {
+                     callbacks: {
+                        title: tooltipTitleCallback
+                    }
+                }
+            }
+        }
+    });
+    
+    const genericsChartCtx = document.getElementById('genericsChart').getContext('2d');
+    new Chart(genericsChartCtx, {
+        type: 'radar',
+        data: {
+            labels: ['T (Type)', 'E (Element)', 'K (Key)', 'V (Value)', 'N (Number)'],
+            datasets: [{
+                label: 'Uso Común',
+                data: [90, 85, 75, 75, 60],
+                fill: true,
+                backgroundColor: 'rgba(242, 135, 5, 0.2)',
+                borderColor: '#F28705',
+                pointBackgroundColor: '#F28705',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: '#F28705'
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                     labels: {
+                        font: {
+                            size: 14,
+                            family: 'Inter'
+                        }
+                    }
+                },
+                tooltip: {
+                     callbacks: {
+                        title: tooltipTitleCallback
+                    }
+                }
+            },
+            scales: {
+                r: {
+                    angleLines: {
+                        display: false
+                    },
+                    suggestedMin: 0,
+                    suggestedMax: 100
+                }
+            }
+        }
+    });
+
+</script>
+</body>
+</html>
