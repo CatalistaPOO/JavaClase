@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<script>
+    function calcular(){
+        let v1 = Number(document.getElementById('v1').value);
+        let v2 = Number(document.getElementById('v2').value);
+        let op = document.getElementById('operador').value;
+        let resu;
+        switch(op){
+            case '+':
+                resu = v1 + v2;
+                break;
+            case '-':
+                resu = v1 - v2;
+                break;
+            case '*':
+                resu = v1 * v2;
+                break;
+            case '/':
+                resu = v1 / v2;
+                break;
+        }
+        document.getElementById('resultado').textContent = resu;
+    }
+
+    window.onload = function(){
+        document.getElementById('btnCalcular').onclick = calcular;
+    };
+</script>
+</head>
+<body>
+    <div id="contPrincipal">
+        <h1>Super Calculadora</h1>
+            <label for="v1">Valor 1</label>
+            <input id="v1" type="number" name="v1">
+            
+            <label for="operador">Operador</label>
+            <select id="operador" name="operador">
+                <option value="+">Suma</option>  
+                <option value="-">Resta</option>  
+                <option value="*">Producto</option>  
+                <option value="/">Division</option>  
+            </select>
+
+            <label for="v2">Valor 2</label>
+            <input id="v2" type="number" name="v2">
+
+            <button id="btnCalcular">Calcular</button>
+        <p id="resultado">0</p>
+    </div>
+</body>
+</html>
