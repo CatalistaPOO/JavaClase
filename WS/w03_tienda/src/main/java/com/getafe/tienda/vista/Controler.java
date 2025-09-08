@@ -31,12 +31,12 @@ public class Controler extends HttpServlet {
 		//lo primero es hacer un switch para acceder a diferentes peticiones.
 		switch(path) {
 		case "/informacion":
-			//creamos un mapa para pasar información a Info.java (2 vlores (clave "origen",valor "el que te envió esto fui yo..."))
+			//creamos un mapa para pasar información a Info.java (2 valores (clave "origen",valor "el que te envió esto fui yo..."))
 			req.setAttribute("origen", "el que te envió esto fui yo, el Controlador!!");
 			//forward se encarga de reenviar la petición al otro servlet de información (en archivo Info.java), para cada acceso a la parte privada(/WEB-INF)
 			req.getRequestDispatcher("/WEB-INF/informacion").forward(req, resp);
 			break;
-		case"/menu_principal":
+		case "/menu_principal":
 			req.getRequestDispatcher("/WEB-INF/vista/menu_principal.jsp").forward(req, resp);
 			break;
 		case "/listado_productos":
@@ -51,10 +51,11 @@ public class Controler extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String path = req.getPathInfo();
+		String descripcion;
 		
 		switch(path) {
 		case "/listado_productos":
-			String descripcion = req.getParameter("descripcion");
+			descripcion = req.getParameter("descripcion");
 			Set<Producto> prods;
 			if(descripcion != null && descripcion.length() > 0) {
 				prods = neg.getProductos(descripcion);

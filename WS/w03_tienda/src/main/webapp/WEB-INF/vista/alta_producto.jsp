@@ -16,7 +16,7 @@ function validaForm(){
 }
 
 window.onload = function(){
-	document.getElementById("form_prod".addEventListener("submit", validaForm);
+	document.getElementById("form_prod".addEventListener("submit", validaForm));
 }
 </script>
 </head>
