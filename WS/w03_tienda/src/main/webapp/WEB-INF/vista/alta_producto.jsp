@@ -8,7 +8,17 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Productos</title>
-<link rel="stylesheet" type="text/css" href="${css}/crear_productos.css">
+<link rel="stylesheet" type="text/css" href="${css}/alta_producto.css">
+<script type="text/javascript">
+
+function validaForm(){
+	
+}
+
+window.onload = function(){
+	document.getElementById("form_prod".addEventListener("submit", validaForm);
+}
+</script>
 </head>
 <body>
 	<header class="cabecera">
@@ -16,10 +26,15 @@
 	</header>
 	
 	<div id="contPrincipal">
-		<form action="${home}/alta_productos" method="post">
+		<form id ="form_prod"action="${home}/alta_producto" method="post">
 			<input type="text" name="descripcion" placeholder="Descripcion">
 			<input type="number" name="precio" placeholder="Precio">
-			
+			<select name="idFabricante">
+				<option value="20">Asus20</option>
+				<option value="19">Asus19</option>
+				<option value="18">Asus18</option>
+				<option value="17">Asus17</option>
+			</select>
 			<button type="submit">Crear</button>
 		</form>
 			

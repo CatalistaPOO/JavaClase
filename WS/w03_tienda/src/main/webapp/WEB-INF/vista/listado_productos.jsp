@@ -17,63 +17,31 @@
 	
 	<div id="contPrincipal">
 		<form action="${home}/listado_productos" method="post">
-<<<<<<< HEAD
 			<input type="search" name="descripcion">
 			<button type="submit">Buscar</button>
 		</form>
-		<c:if test="${not empty prods}">
-			<table id="tabla_datos">
-				<thead>
-					<tr>
-						<th>Descripcion</th>
-						<th>Precio</th>
-						<th>Fabricante</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach items="${prods}" var="prod">
+		
+			<c:if test="${not empty prods}">
+				<table id="tabla_datos">
+					<thead>
 						<tr>
-							<td>${prod.producto}</td>
-							<td>${prod.precio}</td>
-							<td>${prod.fabricante.fabricante}</td>
+							<th>Descripcion</th>
+							<th>Precio</th>
+							<th>Fabricante</th>
 						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</c:if>
-=======
-			<input type="search" name="description">
-			<button type="submit">Buscar</button>
-		</form>
-		
-		<table id="tabla_datos">
-			<thead>
-				<tr>
-					<th>Descripcion</th>
-					<th>Precio</th>
-					<th>Fabricante</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th>Ordenador_portatil dkdkdkd</th>
-					<th>1.589</th>
-					<th>asus</th>
-				</tr>
-				<tr>
-					<th>Ordenador_portatil dkdkdkd</th>
-					<th>1.589</th>
-					<th>asus</th>
-				</tr>
-				<tr>
-					<th>Ordenador_portatil dkdkdkd</th>
-					<th>1.589</th>
-					<th>asus</th>
-				</tr>
-			</tbody>
-		</table>
-
-		
+					</thead>
+					<tbody>
+						<c:forEach items="${prods}" var="prod">
+							<tr>
+								<td>${prod.producto}</td>
+								<td>${prod.precio}</td>
+								<td>${prod.fabricante.fabricante}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</c:if>
+			
 		<a href="${home}/menu_principal"><button>Volver</button></a>
 	</div>
 </body>
