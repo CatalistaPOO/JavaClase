@@ -7,72 +7,22 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Crear_producto</title>
-<link rel="stylesheet" type="text/css" href="${css}/productos.css">
+	<title>Productos</title>
+<link rel="stylesheet" type="text/css" href="${css}/crear_productos.css">
 </head>
 <body>
 	<header class="cabecera">
-			<h2>crear producto</h2>
+			<h2>Alta de producto</h2>
 	</header>
 	
 	<div id="contPrincipal">
-		<form action="${home}/listado_productos" method="post">
-<<<<<<< HEAD
-			<input type="search" name="descripcion">
-			<button type="submit">Buscar</button>
+		<form action="${home}/alta_productos" method="post">
+			<input type="text" name="descripcion" placeholder="Descripcion">
+			<input type="number" name="precio" placeholder="Precio">
+			
+			<button type="submit">Crear</button>
 		</form>
-		<c:if test="${not empty prods}">
-			<table id="tabla_datos">
-				<thead>
-					<tr>
-						<th>Descripcion</th>
-						<th>Precio</th>
-						<th>Fabricante</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach items="${prods}" var="prod">
-						<tr>
-							<td>${prod.producto}</td>
-							<td>${prod.precio}</td>
-							<td>${prod.fabricante.fabricante}</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</c:if>
-=======
-			<input type="search" name="description">
-			<button type="submit">Buscar</button>
-		</form>
-		
-		<table id="tabla_datos">
-			<thead>
-				<tr>
-					<th>Descripcion</th>
-					<th>Precio</th>
-					<th>Fabricante</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th>Ordenador_portatil dkdkdkd</th>
-					<th>1.589</th>
-					<th>asus</th>
-				</tr>
-				<tr>
-					<th>Ordenador_portatil dkdkdkd</th>
-					<th>1.589</th>
-					<th>asus</th>
-				</tr>
-				<tr>
-					<th>Ordenador_portatil dkdkdkd</th>
-					<th>1.589</th>
-					<th>asus</th>
-				</tr>
-			</tbody>
-		</table>
->>>>>>> ef29d70d1b627f0e1e007e7fc762094a742286d9
+			
 		
 		<a href="${home}/menu_principal"><button>Volver</button></a>
 	</div>

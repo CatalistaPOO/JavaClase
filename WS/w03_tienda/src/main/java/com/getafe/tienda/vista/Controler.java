@@ -65,17 +65,13 @@ public class Controler extends HttpServlet {
 		}
 		
 	}
-	
+
 	
 	@Override
 	public void init() throws ServletException {
 		
 		neg = new TiendaImpl();
-		
-
 	
-	@Override
-	public void init() throws ServletException {
 
 		//definimos la variable home y css utilizando
 		ServletContext app = getServletContext();
@@ -84,5 +80,5 @@ public class Controler extends HttpServlet {
 		app.setAttribute("home", app.getContextPath() + "/home");
 		//css
 		app.setAttribute("css", app.getContextPath() + "/css");
-		}
+	}
 }
