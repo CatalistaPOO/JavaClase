@@ -7,12 +7,12 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Productos</title>
+	<title>Crear_producto</title>
 <link rel="stylesheet" type="text/css" href="${css}/productos.css">
 </head>
 <body>
 	<header class="cabecera">
-			<h2>Busqueda de productos</h2>
+			<h2>crear producto</h2>
 	</header>
 	
 	<div id="contPrincipal">
@@ -72,7 +72,7 @@
 				</tr>
 			</tbody>
 		</table>
-
+>>>>>>> ef29d70d1b627f0e1e007e7fc762094a742286d9
 		
 		<a href="${home}/menu_principal"><button>Volver</button></a>
 	</div>

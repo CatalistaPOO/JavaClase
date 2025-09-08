@@ -1,11 +1,13 @@
 package com.getafe.tienda.vista;
 
 import java.io.IOException;
+
 import java.util.Set;
 
 import com.getafe.tienda.modelo.Producto;
 import com.getafe.tienda.negocio.Tienda;
 import com.getafe.tienda.negocio.TiendaImpl;
+
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -16,9 +18,11 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/home/*")//atiende a home y a todas sus subcarpetas
 public class Controler extends HttpServlet {
+
 	
 	private Tienda neg;
 	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
@@ -41,6 +45,7 @@ public class Controler extends HttpServlet {
 			}
 	}
 	
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String path = req.getPathInfo();
@@ -67,6 +72,11 @@ public class Controler extends HttpServlet {
 		
 		neg = new TiendaImpl();
 		
+
+	
+	@Override
+	public void init() throws ServletException {
+
 		//definimos la variable home y css utilizando
 		ServletContext app = getServletContext();
 		
