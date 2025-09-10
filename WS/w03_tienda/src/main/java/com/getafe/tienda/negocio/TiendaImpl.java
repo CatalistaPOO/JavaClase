@@ -65,6 +65,13 @@ public class TiendaImpl implements Tienda {
 		
 	}
 	
+	@Override
+	public Set<Fabricante> getFabricantesActivos() {
+		Set<Fabricante> resu = new TreeSet<Fabricante>(getComparatorFabricanteDesc());
+		resu.addAll(fDao.findOnlyActive());
+		return resu;
+	}
+	
 	private Comparator<Producto> getComparatorProductoDescLambda(){
 //		Collator col = Collator.getInstance(new Locale("es"));
 //		return (p1,p2) -> col.compare(p1, p2);
@@ -101,6 +108,8 @@ public class TiendaImpl implements Tienda {
 	private Comparator<Fabricante> getComparatorFabricanteIdLambda(){
 		return (f1,f2) -> f1.getIdFabricante() - f2.getIdFabricante();
 	}
+
+	
 
 	
 

@@ -20,6 +20,8 @@ public interface Tienda {
 	 */
 	Set<Producto> getProductos(String descripcion);
 	
+	void crearProducto(Producto p);
+	
 	/**
 	 * Devuelve los fabricantes ordenados por su nombre
 	 * @return Set de fabricantes ordenados
@@ -34,8 +36,15 @@ public interface Tienda {
 	Fabricante getFabricante(int idFabricante);
 	
 	/**
+	 * Devuelve todos los fabricantes que proporcionan productos. Ordenados por su nombre
+	 * @return Set de fabricantes ordenados
+	 */
+	Set<Fabricante> getFabricantesActivos();
+	
+	
+	/**
 	 * Agrega un nuevo producto en la persistencia
 	 * @param p producto a añadir
 	 */
-	void crearProducto(Producto p);
+	
 }

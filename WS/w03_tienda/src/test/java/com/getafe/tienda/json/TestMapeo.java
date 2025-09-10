@@ -1,6 +1,8 @@
-package com.getafe.tienda.modelo;
+package com.getafe.tienda.json;
 
 import com.getafe.tienda.config.Config;
+import com.getafe.tienda.modelo.Fabricante;
+import com.getafe.tienda.modelo.Producto;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;

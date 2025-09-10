@@ -14,15 +14,21 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/tienda/*")
 public class Controller extends HttpServlet {
 
 	private Tienda neg;
+	private String home;
+	
+
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String path = req.getPathInfo();
+		HttpSession session = req.getSession();
+		Set<Fabricante> fabs;
 		
 		switch(path) {
 		case "/informacion":
@@ -30,16 +36,29 @@ public class Controller extends HttpServlet {
 			req.getRequestDispatcher("/WEB-INF/informacion").forward(req, resp);
 			break;
 		case "/menu_principal":
+			eliminaDatosSession(session);
 			req.getRequestDispatcher("/WEB-INF/vista/menu_principal.jsp").forward(req, resp);
 			break;
 		case "/listado_productos":
 			req.getRequestDispatcher("/WEB-INF/vista/listado_productos.jsp").forward(req, resp);
 			break;
 		case "/alta_producto":
-			Set<Fabricante> fabs = neg.getFabricantes();
+			fabs = neg.getFabricantes();
 			req.setAttribute("fabs", fabs);
 			req.getRequestDispatcher("/WEB-INF/vista/alta_producto.jsp").forward(req, resp);
+
+			break;
+		case "/alta_producto_ok":
+			req.getRequestDispatcher("/WEB-INF/vista/alta_producto_ok.jsp").forward(req,resp);
+			break;
 			
+		case "/alta_producto_error":
+			req.getRequestDispatcher("/WEB-INF/vista/alta_producto_error.jsp").forward(req,resp);
+			break;
+		case "/productos_fabricante":
+			fabs = neg.getFabricantesActivos();
+			req.setAttribute("fabs", fabs);
+			req.getRequestDispatcher("/WEB-INF/vista/productos_fabricante.jsp").forward(req,resp);
 			break;
 		}
 	}
@@ -47,8 +66,11 @@ public class Controller extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String path = req.getPathInfo();
-		
+		HttpSession session = req.getSession();
 		String descripcion;
+		String idFabStr;
+		Fabricante fab;
+		
 		switch(path) {
 		case "/listado_productos":
 			descripcion = req.getParameter("descripcion");
@@ -66,9 +88,9 @@ public class Controller extends HttpServlet {
 		case "/alta_producto":
 			descripcion = req.getParameter("descripcion");
 			String precioStr = req.getParameter("precio");
-			String idFabStr = req.getParameter("idFabricante");
+			idFabStr = req.getParameter("idFabricante");
 			double precio;
-			Fabricante fab;
+			
 			//Chequeo de parametros recibidos
 			if(!isEmpty(descripcion)
 				&& !isEmpty(precioStr)
@@ -77,18 +99,29 @@ public class Controller extends HttpServlet {
 				&& isInteger(idFabStr)
 				&& (precio = Double.parseDouble(precioStr)) > 0
 				&& (fab = neg.getFabricante(Integer.parseInt(idFabStr))) != null) {
-				req.setAttribute("producto", descripcion);
+				session.setAttribute("producto", descripcion);
 				try {
 					neg.crearProducto(new Producto(descripcion, precio,fab));
-					req.getRequestDispatcher("/WEB-INF/vista/alta_producto_ok.jsp").forward(req,resp);
+					resp.sendRedirect(home + "/alta_producto_ok");
 				}catch (Exception e) {
-					req.getRequestDispatcher("/WEB-INF/vista/alta_producto_ok.jsp").forward(req,resp);
+					resp.sendRedirect(home + "/alta_producto_error");
 				}
 				
 			}else
 				//deberíamos cerrar sesion (pero no tenemos sesion)
-				System.out.println("si tuvieras sesion te mandaba a hacer puñetas");
-			
+				System.out.println("si tuvieras sesion te hacía esperar un rato");
+			break;
+		case "/productos_fabricante":
+			idFabStr = req.getParameter("idFabricante");
+			if (!isEmpty(idFabStr)
+					&& isInteger(idFabStr)
+					&& (fab = neg.getFabricante(Integer.parseInt(idFabStr))) != null) {
+					session.setAttribute("fab", fab);
+					resp.sendRedirect(home + "/productos_fabricante");
+			}else {
+				//cerrar sesion(si la tuvieramos, que no es el caso) y mostramos fallo
+				System.out.println("dio error");
+			}	
 			break;
 		}
 	}
@@ -99,17 +132,19 @@ public class Controller extends HttpServlet {
 		
 		ServletContext app = getServletContext();
 		
-		app.setAttribute("home", app.getContextPath() + "/tienda");
+		home = app.getContextPath() + "/tienda";
+		
+		app.setAttribute("home", home);
 		app.setAttribute("css", app.getContextPath() + "/css");
 	}
 	
 	//Este metodo chequea si hay vacíos o nulos
-	public boolean isEmpty(String param) {
-		return param == null && param.trim().length() == 0;
+	private boolean isEmpty(String param) {
+		return param == null || param.trim().length() == 0;
 	}
 	
 	//Este metodo para recibir si es vacío, si es nulo o si encuentra una cosa diferente a numero decimal
-	public boolean isDouble(String num) {
+	private boolean isDouble(String num) {
 		try {
 			Double.parseDouble(num);
 			return true;
@@ -119,12 +154,18 @@ public class Controller extends HttpServlet {
 	}
 	
 	//Este metodo para recibir si es vacío, si es nulo o si encuentra una cosa diferente a numero entero
-	public boolean isInteger(String num) {
+	private boolean isInteger(String num) {
 		try {
 			Double.parseDouble(num);
 			return true;
 		}catch (NumberFormatException e) {
 			return false;
 		}
+	}
+	
+	private void eliminaDatosSession(HttpSession sesion) {
+		sesion.removeAttribute("fab");
+		sesion.removeAttribute("fabs");
+		sesion.removeAttribute("prods");
 	}
 }
