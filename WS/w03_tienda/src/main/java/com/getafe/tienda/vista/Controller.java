@@ -3,6 +3,7 @@ package com.getafe.tienda.vista;
 import java.io.IOException;
 import java.util.Set;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.getafe.tienda.modelo.Fabricante;
 import com.getafe.tienda.modelo.Producto;
 import com.getafe.tienda.negocio.Tienda;
@@ -59,6 +60,11 @@ public class Controller extends HttpServlet {
 			fabs = neg.getFabricantesActivos();
 			req.setAttribute("fabs", fabs);
 			req.getRequestDispatcher("/WEB-INF/vista/productos_fabricante.jsp").forward(req,resp);
+			break;
+		case "/productos_fabricante_json":
+			fabs = neg.getFabricantesActivos();
+			req.setAttribute("fabs", fabs);
+			req.getRequestDispatcher("/WEB-INF/vista/productos_fabricante_json.jsp").forward(req,resp);
 			break;
 		}
 	}
@@ -123,6 +129,22 @@ public class Controller extends HttpServlet {
 				System.out.println("dio error");
 			}	
 			break;
+		case"/productos_fabricante_json_respuesta":
+			idFabStr = req.getParameter("idFabricante");
+			System.out.println(idFabStr);
+			if (!isEmpty(idFabStr)
+					&& isInteger(idFabStr)
+					&& (fab = neg.getFabricante(Integer.parseInt(idFabStr))) != null) {
+					ObjectMapper  mapper = new ObjectMapper();
+					String json = mapper.writeValueAsString(fab.getProductos());
+					System.out.println(json);
+					resp.getWriter().println(json);
+			}else {
+				//cerrar sesion(si la tuvieramos, que no es el caso) y mostramos fallo
+				System.out.println("dio error");
+			}	
+			break;
+			
 		}
 	}
 
