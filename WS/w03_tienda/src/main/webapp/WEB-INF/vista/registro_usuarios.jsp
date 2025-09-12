@@ -7,25 +7,29 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Productos</title>
+	<title>Registro Usuarios</title>
 <link rel="stylesheet" type="text/css" href="${css}/alta_producto.css">
 
 <script type="text/javascript">
-//VALIDACION DE DATOS A PARTIR DEL BOTON ENVIAR:
-
-function validaForm(ev){//al pasar ev creamos un objeto del evento submit del botón
-	ev.preventDefault();//esto hace que no ejecute el evento
+//VALIDACION DE DATOS A PARTIR DEL BOTON Registrarse:
+function validaForm(ev) {
+	ev.preventDefault();
+	let nombre = document.getElementById("nombre").value.trim();
 	let usr = document.getElementById("usr").value.trim();
+	let email = document.getElementById("email").value.trim();
 	let pwd = document.getElementById("pwd").value.trim();
+	let pwd2 = document.getElementById("pwd2").value.trim();
 	let error = document.getElementById("error");
-
-	if (!usr || !pwd) {
+	
+	if(!nombre || !usr || !email || !pwd || !pwd2) {
 		error.textContent = "Todos los campos son obligatorios";
-	}else if(!checkPwd(pwd)){
+	} else if(pwd != pwd2){
+		error.textContent = "Las contraseñas no coinciden";
+	} else if(!checkPwd(pwd)) {
 		error.textContent = "La contraseña debe tener al menos 6 caracteres";
-	}else{
-		error.textContent = "";//Borramos el texto que comunica errores
-		ev.currentTarget.submit();//devolvemos el evento una vez que todos los campos están chequeados correctamente
+	} else{
+		error.textContent = "";
+		ev.currentTarget.submit();
 	}
 }
 
@@ -34,25 +38,25 @@ function checkPwd(pwd){
 }
 
 window.onload = function(){
-	document.getElementById("form_login").addEventListener("submit", validaForm);
+	document.getElementById("form_registro").addEventListener("submit", validaForm);
 }
 </script>
 
 </head>
 <body>
 	<header class="cabecera">
-		<h2>Login</h2>
+		<h2>Registro Usuarios</h2>
 	</header>
 
 	<div id="contPrincipal">
-		<form id="form_login" action="${home}/login" method="post">
+		<form id="form_registro" action="${home}/registro_usuarios" method="post">
+			<input id="nombre" type="text" name="nombre" placeholder="Nombre">
 			<input id="usr" type="text" name="usr" placeholder="Usuario">
+			<input id="email" type="email" name="email" placeholder="Correo electronico">
 			<input id="pwd" type="password" name="pwd" placeholder="Password">
-			<button type="submit">Login</button>
+			<input id="pwd2" type="password" name="pwd2" placeholder="Repite password">
+			<button type="submit">Registrarse</button>
 		</form>
-		
-		<a href="${home}/menu_principal"><button>Volver</button></a>
-		<!-- &nbsp; equivale a un espacio, es la palabra reservada. -->
 		<p id="error">&nbsp;</p>
 	</div>
 </body>

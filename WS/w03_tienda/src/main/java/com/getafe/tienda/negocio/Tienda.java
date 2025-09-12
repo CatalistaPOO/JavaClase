@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.getafe.tienda.modelo.Fabricante;
 import com.getafe.tienda.modelo.Producto;
+import com.getafe.tienda.modelo.Usuario;
 
 public interface Tienda {
 
@@ -46,5 +47,20 @@ public interface Tienda {
 	 * Agrega un nuevo producto en la persistencia
 	 * @param p producto a añadir
 	 */
+	
+	/**
+	 * Agrega nuevo usuario
+	 * @param u usuario a agregar
+	 * @return
+	 */
+	boolean crearUsuario(Usuario u);
+	
+	/**
+	 * Valida las credenciales de un login
+	 * @param usr nombre de usuario
+	 * @param pwd password
+	 * @return el usuario si las credenciales son correctas o null si no lo son
+	 */
+	Usuario validaUsuario(String usr, String pwd);
 	
 }

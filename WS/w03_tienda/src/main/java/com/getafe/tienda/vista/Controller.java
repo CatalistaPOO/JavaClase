@@ -6,6 +6,7 @@ import java.util.Set;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.getafe.tienda.modelo.Fabricante;
 import com.getafe.tienda.modelo.Producto;
+import com.getafe.tienda.modelo.Usuario;
 import com.getafe.tienda.negocio.Tienda;
 import com.getafe.tienda.negocio.TiendaImpl;
 
@@ -32,6 +33,12 @@ public class Controller extends HttpServlet {
 		Set<Fabricante> fabs;
 		
 		switch(path) {
+		case "/login":
+			req.getRequestDispatcher("/WEB-INF/vista/login.jsp").forward(req, resp);
+			break;
+		case "/registro_usuarios":
+			req.getRequestDispatcher("/WEB-INF/vista/registro_usuarios.jsp").forward(req, resp);
+			break;
 		case "/informacion":
 			req.setAttribute("origen", "el que te envio esto fui yo, el Controlador!!!");
 			req.getRequestDispatcher("/WEB-INF/informacion").forward(req, resp);
@@ -66,6 +73,7 @@ public class Controller extends HttpServlet {
 			req.setAttribute("fabs", fabs);
 			req.getRequestDispatcher("/WEB-INF/vista/productos_fabricante_json.jsp").forward(req,resp);
 			break;
+		
 		}
 	}
 	
@@ -76,8 +84,42 @@ public class Controller extends HttpServlet {
 		String descripcion;
 		String idFabStr;
 		Fabricante fab;
+		String usr,pwd;
 		
 		switch(path) {
+		case "/login":
+			 usr = req.getParameter("usr");
+			 pwd = req.getParameter("pwd");
+			System.out.println(usr);
+			System.out.println(pwd);
+			break;
+		case "/registro_usuarios":
+			String nombre = req.getParameter("nombre");
+			usr = req.getParameter("usr");
+			pwd = req.getParameter("pwd");
+			String email = req.getParameter("email");
+			 
+			if(!isEmpty(nombre)
+					 && !isEmpty(usr)
+					 && !isEmpty (pwd)
+					 && !isEmpty(email)
+					 && checkPassword(pwd)){
+				 	Usuario nuevo = new Usuario(nombre.trim(), email.trim(), usr.trim(), pwd.trim());
+				 	session.setAttribute("nombreUsuario", nombre);
+				 	try {
+				 		if ( neg.crearUsuario(nuevo)) {
+				 			session.setAttribute("resu", "ok");
+				 		}else {
+				 			session.setAttribute("resu", "error");
+				 		}
+					} catch (Exception e) {
+						session.setAttribute("resu", "existe");
+					}
+				 	resp.sendRedirect(home + "/registro_usuario_respuesta");
+			 }else {
+				 //todo mal!!
+			 }
+			break;
 		case "/listado_productos":
 			descripcion = req.getParameter("descripcion");
 			//se crea un set que recibe los fabricantes de la base
@@ -144,7 +186,9 @@ public class Controller extends HttpServlet {
 				System.out.println("dio error");
 			}	
 			break;
-			
+		case  "/registro_usuario_respuesta":
+			req.getRequestDispatcher("/WEB-INF/vista/registro_usuario_respuesta.jsp").forward(req, resp);
+			break;
 		}
 	}
 
@@ -189,5 +233,9 @@ public class Controller extends HttpServlet {
 		sesion.removeAttribute("fab");
 		sesion.removeAttribute("fabs");
 		sesion.removeAttribute("prods");
+	}
+	
+	private boolean checkPassword(String pwd) {
+		return pwd.trim().length() > 5;
 	}
 }
