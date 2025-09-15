@@ -39,6 +39,9 @@ public class Controller extends HttpServlet {
 		case "/registro_usuarios":
 			req.getRequestDispatcher("/WEB-INF/vista/registro_usuarios.jsp").forward(req, resp);
 			break;
+		case "/registro_usuarios_respuesta":
+			req.getRequestDispatcher("/WEB-INF/vista/registro_usuarios_respuesta.jsp").forward(req, resp);
+			break;
 		case "/informacion":
 			req.setAttribute("origen", "el que te envio esto fui yo, el Controlador!!!");
 			req.getRequestDispatcher("/WEB-INF/informacion").forward(req, resp);
@@ -98,7 +101,6 @@ public class Controller extends HttpServlet {
 			usr = req.getParameter("usr");
 			pwd = req.getParameter("pwd");
 			String email = req.getParameter("email");
-			 
 			if(!isEmpty(nombre)
 					 && !isEmpty(usr)
 					 && !isEmpty (pwd)
@@ -115,7 +117,8 @@ public class Controller extends HttpServlet {
 					} catch (Exception e) {
 						session.setAttribute("resu", "existe");
 					}
-				 	resp.sendRedirect(home + "/registro_usuario_respuesta");
+				 	System.out.println("llegue");
+				 	resp.sendRedirect(home + "/registro_usuarios_respuesta");
 			 }else {
 				 //todo mal!!
 			 }
