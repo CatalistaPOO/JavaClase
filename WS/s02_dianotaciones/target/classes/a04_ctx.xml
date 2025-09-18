@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		 https://www.springframework.org/schema/beans/spring-beans.xsd
+		 http://www.springframework.org/schema/context
+		 http://www.springframework.org/schema/context/spring-context.xsd">
+		 
+<!-- 	<bean id= "test" class="com.cursogetafe.dixml.Test04b"> -->
+<!-- 		<constructor-arg ref="dataSourceDesarrollo"/> -->
+<!-- 	</bean> -->
+	
+	<context:annotation-config/>
+	<context:component-scan base-package="com.cursogetafe.dixml"/>
+		
+	<bean id="dataSourceProduccion" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="url" value="${bbdd.url}" />
+		<property name="driverClassName" value="${bbdd.driver}" />
+		<property name="username" value="${bbdd.user}" />
+		<property name="password" value="${bbdd.pass}" />
+	</bean>
+	
+	<bean id="dataSourceDesarrollo" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="url" value="${bbdd.url}" />
+		<property name="driverClassName" value="${test.bbdd.driver}" />
+		<property name="username" value="${test.bbdd.user}" />
+		<property name="password" value="${test.bbdd.pass}" />
+	</bean>
+	
+	<context:property-placeholder location="classpath:app.properties"/>
+	
+</beans>
