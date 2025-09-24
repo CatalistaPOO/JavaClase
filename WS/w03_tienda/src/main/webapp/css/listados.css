@@ -1,0 +1,41 @@
+
+body{
+  background-color: #666666 !important;
+  
+}
+
+
+#tabla_datos{
+  border: 2px solid #358588;
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  
+}
+
+#contPrincipal{
+  width: 700px !important;
+}
+
+
+thead th{
+  background-color: #358588;
+  color: #fdfdfd;
+  
+}
+
+
+th, td{
+  padding: 7px;
+}
+
+
+tbody tr:nth-child(odd){
+  background-color: #bbbbbb;
+}
+
+
+tr:hover{
+  background-color: #115350 !important;
+  color: #ffffff;
+}

@@ -8,17 +8,20 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Productos</title>
-<link rel="stylesheet" type="text/css" href="${css}/productos.css">
+<link rel="stylesheet" type="text/css" href="${css}/alta_producto.css">
+
 </head>
 <body>
 	<header class="cabecera">
-		<h2>Alta de Productos</h2>
+		<h2>Alta de Producto</h2>
 	</header>
-
+	
 	<div id="contPrincipal">
-		<p>El producto <span id="prod">${producto}</span> se ha guardado correctamente</p>
-		<a href="${home}/alta_producto"><button>Mas productos</button></a>
-		<a href="${home}/menu_principal"><button>Volver</button></a>
+	
+		<p>El producto <span id="prod">${producto}</span> se ha guardado correctamente!</p>
+		
+		<a href="${home}/alta_producto"><button>Más Productos</button></a>
+		<a href="${home}/menu_principal"><button>Menu Principal</button></a>
 	</div>
 </body>
 </html>
